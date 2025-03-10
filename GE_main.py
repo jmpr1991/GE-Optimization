@@ -1,5 +1,4 @@
 import constants
-import random_vector_generator as rand_vect
 import initialization
 import parent_selection
 import crossover
@@ -12,9 +11,11 @@ import numpy as np
 
 def main():
 
+    np.random.seed(2)  # seed of the random function to avoid errors in the vector generator
+
     # initialize variables for statistical analysis
-    all_parent_vectors = np.zeros((constants.n_executions, constants.n_permutations, constants.n_cities, constants.dimension))
-    all_parent_distances = np.zeros((constants.n_executions, constants.n_permutations))
+    all_parent_vectors = np.zeros((constants.n_executions, constants.population_size, constants.n_codons))
+    all_parent_distances = np.zeros((constants.n_executions, constants.population_size))
     all_min_distances = []
     all_mean_distances = []
     all_std_distances = []
@@ -24,14 +25,11 @@ def main():
     success_rate = 0
     pex = []
 
-    # create the initial vector with cities
-    vector = rand_vect.random_vector_generator_function(constants.n_cities)
-
     for execution_i in range(constants.n_executions):
         print("execution {}".format(execution_i+1), "on going")
 
-        # initialize the population by shuffling the vector with the cities coordinates
-        parent_vector, parent_distance = initialization.initialization_function(vector, constants.n_cities)
+        # initialize the population
+        parent_vector = initialization.initialization_function()
 
         # initialize variables
         min_distance = []
@@ -44,13 +42,13 @@ def main():
         while number_generations < constants.n_generations:
 
             # parent selection
-            parent_sel_vector, parent_sel_distance = parent_selection.parent_selection_function(parent_vector, parent_distance, constants.n_cities)
+            parent_sel_vector, parent_sel_distance = parent_selection.parent_selection_function(parent_vector, parent_distance, constants.n_codons)
 
             # crossover
-            child_vector, child_distance = crossover.crossover_function(parent_sel_vector, parent_sel_distance, constants.n_cities)
+            child_vector, child_distance = crossover.crossover_function(parent_sel_vector, parent_sel_distance, constants.n_codons)
 
             # mutation
-            child_mutated_vector, child_mutated_distance = mutation.mutation_function(child_vector, child_distance, constants.n_cities)
+            child_mutated_vector, child_mutated_distance = mutation.mutation_function(child_vector, child_distance, constants.n_codons)
 
             # survival selections and elitism
             new_parent_vector, new_parent_distance = survival_elitism.survival_elitism_function(child_mutated_vector, child_mutated_distance, parent_vector, parent_distance)

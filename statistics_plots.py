@@ -44,7 +44,7 @@ def graphics(min_distance_vector, mean_distance_vector, std_distance_vector, las
     min_index = np.argmin(last_distance_vector[0, :])
     plt.plot(np.append(last_parent_vector[0, min_index, :, 0], last_parent_vector[0, min_index, 0, 0]),
              np.append(last_parent_vector[0, min_index, :, 1], last_parent_vector[0, min_index, 0, 1]))
-    plt.title('Optimal path found for {} cities'.format(constants.n_cities))
+    plt.title('Optimal path found for {} cities'.format(constants.n_codons))
     plt.xlabel('x')
     plt.ylabel('y')
     plt.show()
@@ -56,7 +56,7 @@ def graphics(min_distance_vector, mean_distance_vector, std_distance_vector, las
                  yerr=np.array(std_distance_vector[0]), errorevery=int(len(np.array(mean_distance_vector[0]))/10),
                  fmt='none', elinewidth=0.3, ecolor='darkred',capsize=5, ls='-.', label='error bar')
     plt.title('{} individuals progress curve '
-              '\n Best individual and population mean for each generation'.format(constants.n_cities))
+              '\n Best individual and population mean for each generation'.format(constants.n_codons))
     plt.xlabel('Generation')
     plt.ylabel('Adaptation function (distance)')
     plt.legend(['best individual', 'population mean', 'error band'])

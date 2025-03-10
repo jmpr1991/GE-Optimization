@@ -4,25 +4,20 @@ import evaluation
 import numpy as np
 
 
-def initialization_function(vector, n_cities):
+def initialization_function():
     """
-    this function initialize the initial vector of the by shuffling it
-    :param vector: vector with coordinates
-    :param n_cities: number of cities or number of points
+    this function initialize the initial vector
     :return: init_vector: matrix built with permutations of the initial vector
     :return: init_distance: distance of the different permutated vectors
     """
 
     # vector initialization
-    init_vector = np.zeros((constants.n_permutations, n_cities, constants.dimension))
-    init_distance = np.zeros(constants.n_permutations)
+    init_vector = np.zeros((constants.population_size, constants.n_codons))
 
     # shuffle the input vector and create permutations
-    for i in range(constants.n_permutations):
-        np.random.shuffle(vector)
-        init_vector[i, :, :] = vector
+    for i in range(constants.population_size):
 
-        init_distance[i] = evaluation.evaluation_function(init_vector[i, :, :])
+        init_vector[i, :] = np.random.randint(2**constants.codon_bits, size=constants.n_codons)
 
-    return init_vector, init_distance
+    return init_vector
 

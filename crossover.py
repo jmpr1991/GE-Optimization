@@ -14,13 +14,13 @@ def crossover_function(parent_vector, parent_distance, n_cities):
     """
 
     # initialize the variables
-    child_vector = np.full((constants.n_permutations, n_cities, constants.dimension), np.nan)
-    child_distance = np.zeros(constants.n_permutations)
+    child_vector = np.full((constants.population_size, n_cities, constants.dimension), np.nan)
+    child_distance = np.zeros(constants.population_size)
     n_children = 0
-    list_parents = [i for i in range(constants.n_permutations)] # list parents for crossover
+    list_parents = [i for i in range(constants.population_size)] # list parents for crossover
 
     # loop to create the next generation
-    while n_children < constants.n_permutations:
+    while n_children < constants.population_size:
         # generate a crossover probability with uniform distribution
         crossover_prob_i = np.random.uniform(0.0,1.0)
 
@@ -81,13 +81,13 @@ def pmx_crossover(parent1, parent2, s0, sf):
     :return: offspring: child solution
     """
 
-    offspring = np.full((constants.n_cities, constants.dimension), np.nan)
+    offspring = np.full((constants.n_codons, constants.dimension), np.nan)
 
     offspring[s0 - 1:sf, :] = parent1[s0 - 1:sf, :]
 
     # implementation of the partial mapped crossover
     left_candidates = []
-    for i in np.concatenate([np.arange(0, s0 - 1), np.arange(sf, constants.n_cities)]):
+    for i in np.concatenate([np.arange(0, s0 - 1), np.arange(sf, constants.n_codons)]):
         candidate = parent1[i, :]
         if candidate.tolist() not in parent2[s0 - 1:sf, :].tolist():
             array_index = np.where(candidate == parent2[:, :])[0]
