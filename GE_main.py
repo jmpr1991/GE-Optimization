@@ -1,4 +1,5 @@
 import constants
+import decoder
 import initialization
 import parent_selection
 import crossover
@@ -6,12 +7,16 @@ import mutation
 import survival_elitism
 import statistics_plots
 
+import sys, copy, re, random, math, operator
 import numpy as np
 
 
 def main():
 
     np.random.seed(2)  # seed of the random function to avoid errors in the vector generator
+
+    # Read grammar
+    bnf_grammar = decoder.Grammar("arithmetic.pybnf")
 
     # initialize variables for statistical analysis
     all_parent_vectors = np.zeros((constants.n_executions, constants.population_size, constants.n_codons))
@@ -30,6 +35,10 @@ def main():
 
         # initialize the population
         parent_vector = initialization.initialization_function()
+
+        output = []
+        for ind in range(len(parent_vector)):
+            output[ind], _ = bnf_grammar.generate(parent_vector[ind])
 
         # initialize variables
         min_distance = []

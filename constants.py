@@ -7,6 +7,8 @@ codon_bits = 8 #number of bits of the codons
 n_executions = 1  #number of executions
 n_codons = 10  #number of cities
 
+MAX_WRAPS = 10
+
 # function evaluation constants
 h = 1e-5 #derivation constant
 
