@@ -9,12 +9,19 @@ n_codons = 10  #number of cities
 
 MAX_WRAPS = 10
 
-# function evaluation constants
-h = 1e-5 #derivation constant
+# evaluation function constants
+X_LEFT = -2
+X_RIGHT = 2
+U = 0.1
+K0 = 1
+K1 = 10
+N = 10 # subintervals in 1 unit
+h = 1e-5 # derivation constant
+
 
 
 # Initialization
-population_size = 10 # population size (select an even number of permutations to avoid errors)
+population_size = 16 # population size (select an even number of permutations to avoid errors)
 
 # parent selection
 n_tournaments = population_size  # number of tournaments, lambda in the literature

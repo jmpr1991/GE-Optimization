@@ -36,9 +36,10 @@ def main():
         # initialize the population
         parent_vector = initialization.initialization_function()
 
-        output = []
+        expresion = []
         for ind in range(len(parent_vector)):
-            output[ind], _ = bnf_grammar.generate(parent_vector[ind])
+            output, _ = bnf_grammar.generate(parent_vector[ind])
+            expresion.append(output)
 
         # initialize variables
         min_distance = []
