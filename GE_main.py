@@ -8,7 +8,6 @@ import mutation
 import survival_elitism
 import statistics_plots
 
-import sys, copy, re, random, math, operator
 import numpy as np
 
 
@@ -20,9 +19,9 @@ def main():
     bnf_grammar = decoder.Grammar("arithmetic.pybnf")
 
     # initialize variables for statistical analysis
-    all_min_distances = []
-    all_mean_distances = []
-    all_std_distances = []
+    all_min_fitness = []
+    all_mean_fitness = []
+    all_std_fitness = []
     total_generations = []
 
     # initialize success rate and success mean evaluations number (pex) parameters
@@ -64,7 +63,11 @@ def main():
                 child_mutated_fitness[ind] = evaluation.eval_function(output)
 
             # survival selections and elitism
-            new_parent_vector, new_parent_fitness = survival_elitism.survival_elitism_function(child_mutated_vector, child_mutated_fitness, parent_vector, parent_fitness)
+            new_parent_vector, new_parent_fitness = survival_elitism.survival_elitism_function(child_mutated_vector,
+                                                                                               child_mutated_fitness,
+                                                                                               parent_vector,
+                                                                                               parent_fitness,
+                                                                                               bnf_grammar)
 
             # compute the min distance and mean distance
             min_fitness.append(min(new_parent_fitness))
@@ -77,6 +80,10 @@ def main():
                 termination_generation = termination_generation + 1
                 if termination_generation == constants.END_CONDITION:
                     total_generations.append(number_generations)
+
+                    index_best_ind = list(new_parent_fitness).index(min(new_parent_fitness))
+                    solution, _ = bnf_grammar.generate(child_mutated_vector[index_best_ind])
+                    print(solution)
                     break
 
             else:
@@ -88,13 +95,13 @@ def main():
             parent_fitness = new_parent_fitness
 
         # save values for statistical analysis
-        all_min_distances.append(min_fitness)
-        all_mean_distances.append(mean_fitness)
-        all_std_distances.append(std_fitness)
+        all_min_fitness.append(min_fitness)
+        all_mean_fitness.append(mean_fitness)
+        all_std_fitness.append(std_fitness)
 
     # print statistics and plots
-    statistics_plots.statistics(all_min_distances, total_generations, success_rate, pex)
-    statistics_plots.graphics(all_min_distances, all_mean_distances, all_std_distances)
+    statistics_plots.statistics(all_min_fitness, total_generations, success_rate, pex)
+    statistics_plots.graphics(all_min_fitness, all_mean_fitness, all_std_fitness)
 
 
 if __name__ == "__main__":
