@@ -14,18 +14,18 @@ def statistics(distances_vector, generation_vector, success_rate, pex):
     # Success rate computation
     print("\n Statistics:")
     if constants.square_cities:
-        print("TE = ", success_rate / constants.n_executions * 100, "%")
+        print("TE = ", success_rate / constants.N_EXECUTIONS * 100, "%")
         if success_rate == 0:
             print("PEX = n/a")
         else:
             print("PEX = ", np.mean(pex), " +/-", np.std(pex))
 
     # VAMM computation
-    vam = np.zeros(constants.n_executions)
-    for i in range(constants.n_executions):
+    vam = np.zeros(constants.N_EXECUTIONS)
+    for i in range(constants.N_EXECUTIONS):
         vam[i] = float(min(np.array(distances_vector[i])))
 
-    vamm = sum(vam) / constants.n_executions
+    vamm = sum(vam) / constants.N_EXECUTIONS
     vamm_std = np.std(vam)
     print('VAMM = ', vamm, '+/-', vamm_std)
     print('Execution mean number to converge = ', np.mean(generation_vector), '+/-', np.std(generation_vector))
@@ -44,7 +44,7 @@ def graphics(min_distance_vector, mean_distance_vector, std_distance_vector, las
     min_index = np.argmin(last_distance_vector[0, :])
     plt.plot(np.append(last_parent_vector[0, min_index, :, 0], last_parent_vector[0, min_index, 0, 0]),
              np.append(last_parent_vector[0, min_index, :, 1], last_parent_vector[0, min_index, 0, 1]))
-    plt.title('Optimal path found for {} cities'.format(constants.n_codons))
+    plt.title('Optimal path found for {} cities'.format(constants.N_CODONS))
     plt.xlabel('x')
     plt.ylabel('y')
     plt.show()
@@ -56,7 +56,7 @@ def graphics(min_distance_vector, mean_distance_vector, std_distance_vector, las
                  yerr=np.array(std_distance_vector[0]), errorevery=int(len(np.array(mean_distance_vector[0]))/10),
                  fmt='none', elinewidth=0.3, ecolor='darkred',capsize=5, ls='-.', label='error bar')
     plt.title('{} individuals progress curve '
-              '\n Best individual and population mean for each generation'.format(constants.n_codons))
+              '\n Best individual and population mean for each generation'.format(constants.N_CODONS))
     plt.xlabel('Generation')
     plt.ylabel('Adaptation function (distance)')
     plt.legend(['best individual', 'population mean', 'error band'])

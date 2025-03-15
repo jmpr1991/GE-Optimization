@@ -13,12 +13,12 @@ def initialization_function():
     """
 
     # vector initialization
-    init_vector = np.zeros((constants.population_size, constants.n_codons))
+    init_vector = np.zeros((constants.POPULATION_SIZE, constants.N_CODONS))
 
     # shuffle the input vector and create permutations
-    for i in range(constants.population_size):
+    for i in range(constants.POPULATION_SIZE):
 
-        init_vector[i, :] = np.random.randint(256, size=constants.n_codons, dtype='int32')
+        init_vector[i, :] = np.random.randint(256, size=constants.N_CODONS, dtype='int32')
 
     return init_vector.astype(int)
 

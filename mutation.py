@@ -13,10 +13,10 @@ def mutation_function(child_vector, child_distance, n_cities):
     :return: child_mutated_distance: new distance after mutation
     """
     # initialize the variables
-    child_mutated_vector = np.zeros((constants.population_size, n_cities, constants.dimension))
-    child_mutated_distance = np.zeros(constants.population_size)
+    child_mutated_vector = np.zeros((constants.POPULATION_SIZE, n_cities, constants.dimension))
+    child_mutated_distance = np.zeros(constants.POPULATION_SIZE)
 
-    for i in range(constants.population_size):
+    for i in range(constants.POPULATION_SIZE):
         # generate a crossover probability with uniform distribution
         mutation_prob_i = np.random.uniform(0.0, 1.0)
 

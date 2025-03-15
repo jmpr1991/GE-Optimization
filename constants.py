@@ -3,9 +3,9 @@ This file contain the constants of the tsp problem
 """
 
 #  randon_vector_generator constants
-codon_bits = 8 #number of bits of the codons
-n_executions = 1  #number of executions
-n_codons = 10  #number of cities
+CODON_BITS = 8 #number of bits of the codons
+N_EXECUTIONS = 1  #number of executions
+N_CODONS = 10  #number of cities
 
 MAX_WRAPS = 10
 
@@ -20,14 +20,12 @@ K1 = 10
 N = 10 # subintervals in 1 unit
 h = 1e-5 # derivation constant
 
-
-
 # Initialization
-population_size = 16 # population size (select an even number of permutations to avoid errors)
+POPULATION_SIZE = 16 # population size (select an even number of permutations to avoid errors)
 
 # parent selection
-n_tournaments = population_size  # number of tournaments, lambda in the literature
-n_individuals = 2  # number of individuals participating in the tournament (do not change this value)
+N_TOURNAMENTS = POPULATION_SIZE  # number of tournaments, lambda in the literature
+N_INDIVIDUALS = 2  # number of individuals participating in the tournament (do not change this value)
 
 # crossover
 pc = 1 # crossover probability

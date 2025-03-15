@@ -14,19 +14,19 @@ def crossover_function(parent_vector, parent_distance, n_cities):
     """
 
     # initialize the variables
-    child_vector = np.full((constants.population_size, n_cities, constants.dimension), np.nan)
-    child_distance = np.zeros(constants.population_size)
+    child_vector = np.full((constants.POPULATION_SIZE, n_cities, constants.dimension), np.nan)
+    child_distance = np.zeros(constants.POPULATION_SIZE)
     n_children = 0
-    list_parents = [i for i in range(constants.population_size)] # list parents for crossover
+    list_parents = [i for i in range(constants.POPULATION_SIZE)] # list parents for crossover
 
     # loop to create the next generation
-    while n_children < constants.population_size:
+    while n_children < constants.POPULATION_SIZE:
         # generate a crossover probability with uniform distribution
         crossover_prob_i = np.random.uniform(0.0,1.0)
 
         # select the parents to recombinate and delete them from the list to avoid repetition
-        parents_crossover = np.zeros(constants.n_individuals, int)
-        for k in range(constants.n_individuals):
+        parents_crossover = np.zeros(constants.N_INDIVIDUALS, int)
+        for k in range(constants.N_INDIVIDUALS):
             parents_crossover[k] = np.random.choice(list_parents)
             list_parents.remove(int(parents_crossover[k]))
 
@@ -81,13 +81,13 @@ def pmx_crossover(parent1, parent2, s0, sf):
     :return: offspring: child solution
     """
 
-    offspring = np.full((constants.n_codons, constants.dimension), np.nan)
+    offspring = np.full((constants.N_CODONS, constants.dimension), np.nan)
 
     offspring[s0 - 1:sf, :] = parent1[s0 - 1:sf, :]
 
     # implementation of the partial mapped crossover
     left_candidates = []
-    for i in np.concatenate([np.arange(0, s0 - 1), np.arange(sf, constants.n_codons)]):
+    for i in np.concatenate([np.arange(0, s0 - 1), np.arange(sf, constants.N_CODONS)]):
         candidate = parent1[i, :]
         if candidate.tolist() not in parent2[s0 - 1:sf, :].tolist():
             array_index = np.where(candidate == parent2[:, :])[0]

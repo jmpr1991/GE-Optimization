@@ -20,8 +20,8 @@ def main():
     bnf_grammar = decoder.Grammar("arithmetic.pybnf")
 
     # initialize variables for statistical analysis
-    all_parent_vectors = np.zeros((constants.n_executions, constants.population_size, constants.n_codons))
-    all_parent_distances = np.zeros((constants.n_executions, constants.population_size))
+    all_parent_vectors = np.zeros((constants.N_EXECUTIONS, constants.POPULATION_SIZE, constants.N_CODONS))
+    all_parent_distances = np.zeros((constants.N_EXECUTIONS, constants.POPULATION_SIZE))
     all_min_distances = []
     all_mean_distances = []
     all_std_distances = []
@@ -31,13 +31,13 @@ def main():
     success_rate = 0
     pex = []
 
-    for execution_i in range(constants.n_executions):
+    for execution_i in range(constants.N_EXECUTIONS):
         print("execution {}".format(execution_i+1), "on going")
 
         # initialize the population
         parent_vector = initialization.initialization_function()
 
-        parent_fitness = np.zeros(constants.population_size)
+        parent_fitness = np.zeros(constants.POPULATION_SIZE)
         for ind in range(len(parent_vector)):
             output, _ = bnf_grammar.generate(parent_vector[ind])
             parent_fitness[ind] = evaluation.eval_function(output)
@@ -53,13 +53,13 @@ def main():
         while number_generations < constants.n_generations:
 
             # parent selection
-            parent_sel_vector, parent_sel_fitness = parent_selection.parent_selection_function(parent_vector, parent_fitness, constants.n_codons)
+            parent_sel_vector, parent_sel_fitness = parent_selection.parent_selection_function(parent_vector, parent_fitness)
 
             # crossover
-            child_vector, child_fitness = crossover.crossover_function(parent_sel_vector, parent_sel_fitness, constants.n_codons)
+            child_vector, child_fitness = crossover.crossover_function(parent_sel_vector, parent_sel_fitness, constants.N_CODONS)
 
             # mutation
-            child_mutated_vector, child_mutated_fitness = mutation.mutation_function(child_vector, child_fitness, constants.n_codons)
+            child_mutated_vector, child_mutated_fitness = mutation.mutation_function(child_vector, child_fitness, constants.N_CODONS)
 
             # survival selections and elitism
             new_parent_vector, new_parent_fitness = survival_elitism.survival_elitism_function(child_mutated_vector, child_mutated_fitness, parent_vector, parent_fitness)
