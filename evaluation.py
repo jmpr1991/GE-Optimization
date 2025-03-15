@@ -1,26 +1,52 @@
-import function_to_integrate
-
+import constants
 import numpy as np
 
 
-def evaluation_function(vector_list):
+def function(x):
     """
-    this function evaluates the sum of distances of the point of an array
-    :param vector_list: vector with the coordinates of the different point
-    :return: fun_eval: total fun_eval
+    function to be integrated
+    :param x: independent variable
+    :return: function value
     """
 
-    fun_eval = 0
-    for i in range(np.size(vector_list, 0)):
+    fun = np.nan
+    if constants.FUN_OPTION == 1:
+        fun = 1/4*(3*x**2 - 2*x + 1)
+    elif constants.FUN_OPTION == 2:
+        fun = np.log(1 + x) + x / (1 + x)
+    elif constants.FUN_OPTION == 3:
+        fun = np.exp(x) * (np.sin(x) + np.cos(x))
 
-        # compute the fun_eval between elements of the r until arriving to the first element
-        if i != np.size(vector_list, 0) - 1:
-            fun_eval = fun_eval + np.sqrt((vector_list[i][0] - vector_list[i+1][0])**2 +
-                                          (vector_list[i][1] - vector_list[i+1][1])**2)
-        # return to the starting point
+    return fun
+
+def eval_function(integral):
+    """
+    evaluation function
+    :param integral: string with potential integral function whihc has to be evaluated
+    :return: function value
+    """
+
+    # if the element is incomplete after wrapping process return the maximum fitness value
+    if integral is None:
+        return constants.MAX_EVAL_FUN
+
+    sum = 0
+    for i in range((constants.X_RIGHT - constants.X_LEFT) * constants.N):
+
+        x = constants.X_LEFT + i + constants.h
+        F1 = eval(integral)
+
+        x = constants.X_LEFT + i
+        F2 = eval(integral)
+
+        F_prim = (F1 - F2) / constants.h
+
+        if np.abs(F_prim - function(x)) <= constants.U:
+            sum = sum + constants.K0 * np.abs(F_prim - function(x))
         else:
-            fun_eval = fun_eval + np.sqrt((vector_list[i][0] - vector_list[0][0])**2 +
-                                          (vector_list[i][1] - vector_list[0][1])**2)
+            sum = sum + constants.K1 * np.abs(F_prim - function(x))
+
+    fun_eval = 1 / (constants.N + 1) * sum
 
     return fun_eval
 

@@ -5,5 +5,5 @@
 <code> ::= <expr>
 
 <expr> ::= <expr> <op> <expr> | (<expr> <op> <expr>) | <var>
-<op> ::= + | - | * | /
+<op> ::= + | - | *
 <var> ::= x | 1.0
