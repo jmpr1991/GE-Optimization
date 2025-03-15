@@ -28,7 +28,7 @@ N_TOURNAMENTS = POPULATION_SIZE  # number of tournaments, lambda in the literatu
 N_INDIVIDUALS = 2  # number of individuals participating in the tournament (do not change this value)
 
 # crossover
-pc = 1 # crossover probability
+PC = 1 # crossover probability
 
 # mutation
 pm = 1 # probability of mutation

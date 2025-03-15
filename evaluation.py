@@ -34,10 +34,17 @@ def eval_function(integral):
     for i in range((constants.X_RIGHT - constants.X_LEFT) * constants.N):
 
         x = constants.X_LEFT + i + constants.h
-        F1 = eval(integral)
+        try:
+            F1 = eval(integral)
+        except ZeroDivisionError:
+            F1 = constants.MAX_EVAL_FUN
 
         x = constants.X_LEFT + i
-        F2 = eval(integral)
+        try:
+            F2 = eval(integral)
+        except ZeroDivisionError:
+            F2 = constants.MAX_EVAL_FUN
+
 
         F_prim = (F1 - F2) / constants.h
 

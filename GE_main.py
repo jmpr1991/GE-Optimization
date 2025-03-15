@@ -56,7 +56,7 @@ def main():
             parent_sel_vector, parent_sel_fitness = parent_selection.parent_selection_function(parent_vector, parent_fitness)
 
             # crossover
-            child_vector, child_fitness = crossover.crossover_function(parent_sel_vector, parent_sel_fitness, constants.N_CODONS)
+            child_vector = crossover.crossover_function(parent_sel_vector)
 
             # mutation
             child_mutated_vector, child_mutated_fitness = mutation.mutation_function(child_vector, child_fitness, constants.N_CODONS)
