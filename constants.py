@@ -34,8 +34,8 @@ PC = 1 # crossover probability
 PM = 0.1 # probability of mutation
 
 # termination condition
-n_generations = 20000 #number of generations
-end_condition = 1000 # max number of generations without improvement
+N_GENERATIONS = 20000 #number of generations
+END_CONDITION = 1000 # max number of generations without improvement
 
 # Success rate
 delta = 0.01

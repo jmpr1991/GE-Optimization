@@ -13,12 +13,6 @@ def statistics(distances_vector, generation_vector, success_rate, pex):
     """
     # Success rate computation
     print("\n Statistics:")
-    if constants.square_cities:
-        print("TE = ", success_rate / constants.N_EXECUTIONS * 100, "%")
-        if success_rate == 0:
-            print("PEX = n/a")
-        else:
-            print("PEX = ", np.mean(pex), " +/-", np.std(pex))
 
     # VAMM computation
     vam = np.zeros(constants.N_EXECUTIONS)
@@ -30,24 +24,14 @@ def statistics(distances_vector, generation_vector, success_rate, pex):
     print('VAMM = ', vamm, '+/-', vamm_std)
     print('Execution mean number to converge = ', np.mean(generation_vector), '+/-', np.std(generation_vector))
 
-def graphics(min_distance_vector, mean_distance_vector, std_distance_vector, last_parent_vector, last_distance_vector):
+def graphics(min_distance_vector, mean_distance_vector, std_distance_vector):
     """
-    This function creates 2 plots:
-        1) the order of the cities to be visited for the first execution of the algorithm
-        2) the progress curve of the first execution of the algorithm
+    This function creates  the progress curve of the first execution of the algorithm
     :param min_distance_vector: vector compiling the min distance of the population of each generation
     :param mean_distance_vector: vector compiling the mean distance of the population of each generation
     :param std_distance_vector: vector compiling the standard deviation of the distances of each generation
     :param last_parent_vector: solution vector
     """
-    # print computed optimal path
-    min_index = np.argmin(last_distance_vector[0, :])
-    plt.plot(np.append(last_parent_vector[0, min_index, :, 0], last_parent_vector[0, min_index, 0, 0]),
-             np.append(last_parent_vector[0, min_index, :, 1], last_parent_vector[0, min_index, 0, 1]))
-    plt.title('Optimal path found for {} cities'.format(constants.N_CODONS))
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.show()
 
     # print the convergence of the best individual
     plt.plot(np.array(min_distance_vector[0]), linewidth=0.6)

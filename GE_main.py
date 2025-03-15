@@ -20,8 +20,6 @@ def main():
     bnf_grammar = decoder.Grammar("arithmetic.pybnf")
 
     # initialize variables for statistical analysis
-    all_parent_vectors = np.zeros((constants.N_EXECUTIONS, constants.POPULATION_SIZE, constants.N_CODONS))
-    all_parent_distances = np.zeros((constants.N_EXECUTIONS, constants.POPULATION_SIZE))
     all_min_distances = []
     all_mean_distances = []
     all_std_distances = []
@@ -43,14 +41,14 @@ def main():
             parent_fitness[ind] = evaluation.eval_function(output)
 
         # initialize variables
-        min_distance = []
-        mean_distance = []
-        std_distance = []
+        min_fitness = []
+        mean_fitness = []
+        std_fitness = []
         number_generations = 0
         termination_generation = 0
 
         # generation evolution loop
-        while number_generations < constants.n_generations:
+        while number_generations < constants.N_GENERATIONS:
 
             # parent selection
             parent_sel_vector = parent_selection.parent_selection_function(parent_vector, parent_fitness)
@@ -60,32 +58,27 @@ def main():
 
             # mutation
             child_mutated_vector = mutation.mutation_function(child_vector)
+            child_mutated_fitness = np.zeros(constants.POPULATION_SIZE)
+            for ind in range(len(parent_vector)):
+                output, _ = bnf_grammar.generate(child_mutated_vector[ind])
+                child_mutated_fitness[ind] = evaluation.eval_function(output)
 
             # survival selections and elitism
-            new_parent_vector = survival_elitism.survival_elitism_function(child_mutated_vector, parent_vector)
+            new_parent_vector, new_parent_fitness = survival_elitism.survival_elitism_function(child_mutated_vector, child_mutated_fitness, parent_vector, parent_fitness)
 
             # compute the min distance and mean distance
-            min_distance.append(min(new_parent_fitness))
-            mean_distance.append(np.mean(new_parent_fitness))
-            std_distance.append(np.std(new_parent_fitness))
+            min_fitness.append(min(new_parent_fitness))
+            mean_fitness.append(np.mean(new_parent_fitness))
+            std_fitness.append(np.std(new_parent_fitness))
 
             # compute termination condition if best individual does not change for a number of generations
             if min(new_parent_fitness) == min(parent_fitness):
                 # check convergence
                 termination_generation = termination_generation + 1
-                if termination_generation == constants.end_condition:
+                if termination_generation == constants.END_CONDITION:
                     total_generations.append(number_generations)
-                    parent_vector = new_parent_vector
-                    parent_fitness = new_parent_fitness
                     break
 
-                #check if the optimum distance has been achieved (only for the square shaped cities)
-                if constants.square_cities:
-                    if min(new_parent_fitness) <= constants.square_size * 4 + constants.delta:
-                        total_generations.append(number_generations)
-                        parent_vector = new_parent_vector
-                        parent_fitness = new_parent_fitness
-                        break
             else:
                 termination_generation = 0
 
@@ -95,21 +88,13 @@ def main():
             parent_fitness = new_parent_fitness
 
         # save values for statistical analysis
-        all_parent_vectors[execution_i,:,:,:] = parent_vector
-        all_parent_distances[execution_i, :] = parent_fitness
-        all_min_distances.append(min_distance)
-        all_mean_distances.append(mean_distance)
-        all_std_distances.append(std_distance)
-
-        # compute success rate if square shaped city
-        if constants.square_cities:
-            if all_min_distances[execution_i][-1] <= 4 * constants.square_size + constants.delta:
-                success_rate = success_rate + 1
-                pex.append(number_generations)
+        all_min_distances.append(min_fitness)
+        all_mean_distances.append(mean_fitness)
+        all_std_distances.append(std_fitness)
 
     # print statistics and plots
     statistics_plots.statistics(all_min_distances, total_generations, success_rate, pex)
-    statistics_plots.graphics(all_min_distances, all_mean_distances, all_std_distances, all_parent_vectors, all_parent_distances)
+    statistics_plots.graphics(all_min_distances, all_mean_distances, all_std_distances)
 
 
 if __name__ == "__main__":
