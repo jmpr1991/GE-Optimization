@@ -18,7 +18,7 @@ def initialization_function():
     # shuffle the input vector and create permutations
     for i in range(constants.POPULATION_SIZE):
 
-        init_vector[i, :] = np.random.randint(256, size=constants.N_CODONS, dtype='int32')
+        init_vector[i, :] = np.random.randint(2**constants.CODON_BITS, size=constants.N_CODONS)
 
     return init_vector.astype(int)
 

@@ -3,40 +3,30 @@ import evaluation
 
 import numpy as np
 
-def mutation_function(child_vector, child_distance, n_cities):
+def mutation_function(child_vector):
     """
-    Mutation function permuting 2 random positions of the vector
+    Mutation function for integer representation of the individuals
     :param child_vector: input vector
-    :param child_distance: total distance
-    :param n_cities: number of points of the vector
     :return: child_mutated_vector: new vector after mutation
-    :return: child_mutated_distance: new distance after mutation
     """
     # initialize the variables
-    child_mutated_vector = np.zeros((constants.POPULATION_SIZE, n_cities, constants.dimension))
-    child_mutated_distance = np.zeros(constants.POPULATION_SIZE)
+    child_mutated_vector = np.zeros((constants.POPULATION_SIZE, constants.N_CODONS))
 
-    for i in range(constants.POPULATION_SIZE):
-        # generate a crossover probability with uniform distribution
-        mutation_prob_i = np.random.uniform(0.0, 1.0)
+    for ind in range(constants.POPULATION_SIZE):
 
-        # proceed with the mutation
-        if mutation_prob_i <= constants.pm:
+        for i in range(constants.N_CODONS):
 
-            # generate randomly to set of points
-            p0 = np.random.randint(0, n_cities)
-            p1 = np.random.randint(0, n_cities)
+            # generate a crossover probability with uniform distribution
+            mutation_prob_i = np.random.uniform(0.0, 1.0)
 
-            # mutate the child
-            child_mutated_vector[i, :, :] = child_vector[i, :, :]
-            child_mutated_vector[i, p0, :] = child_vector[i, p1, :]
-            child_mutated_vector[i, p1, :] = child_vector[i, p0, :]
+            # proceed with the mutation
+            if mutation_prob_i <= constants.PM:
 
-            child_mutated_distance[i] = evaluation.evaluation_function(child_mutated_vector[i, :, :])
+                # mutate the child
+                child_mutated_vector[ind, i] = np.random.randint(2**constants.CODON_BITS)
 
-        # no mutation
-        else:
-            child_mutated_vector[i, :, :] = child_vector[i, :, :]
-            child_mutated_distance[i] = child_distance[i]
+            # no mutation
+            else:
+                child_mutated_vector[ind, i] = child_vector[ind, i]
 
-    return child_mutated_vector, child_mutated_distance
+    return child_mutated_vector.astype(int)

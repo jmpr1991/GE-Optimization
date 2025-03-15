@@ -38,7 +38,7 @@ def parent_selection_function(individuals_vector, fitness_vector):
         parent_vector[i] = individuals_vector[tournament_individuals[index], :]
         parent_fitness[i] = min(tournament_fitness)
 
-    return parent_vector, parent_fitness
+    return parent_vector.astype(int)
 
 
      

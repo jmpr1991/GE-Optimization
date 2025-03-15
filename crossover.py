@@ -5,7 +5,7 @@ import numpy as np
 
 def crossover_function(parent_vector):
     """
-    This function recombinates the different parent vectors with the Partially Mapped Crossover method
+    This function recombinates the different parent vectors with the one-point crossover
     :param parent_vector: input vector
     :return: child_vector: vector with the parents recombination
     :return: child_distance: vector with the child distances
@@ -56,4 +56,4 @@ def crossover_function(parent_vector):
             child_vector[n_children, :] = parent_vector[parents_crossover[1], :]
             n_children = n_children + 1
 
-    return child_vector
+    return child_vector.astype(int)

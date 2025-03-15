@@ -53,16 +53,16 @@ def main():
         while number_generations < constants.n_generations:
 
             # parent selection
-            parent_sel_vector, parent_sel_fitness = parent_selection.parent_selection_function(parent_vector, parent_fitness)
+            parent_sel_vector = parent_selection.parent_selection_function(parent_vector, parent_fitness)
 
             # crossover
             child_vector = crossover.crossover_function(parent_sel_vector)
 
             # mutation
-            child_mutated_vector, child_mutated_fitness = mutation.mutation_function(child_vector, child_fitness, constants.N_CODONS)
+            child_mutated_vector = mutation.mutation_function(child_vector)
 
             # survival selections and elitism
-            new_parent_vector, new_parent_fitness = survival_elitism.survival_elitism_function(child_mutated_vector, child_mutated_fitness, parent_vector, parent_fitness)
+            new_parent_vector = survival_elitism.survival_elitism_function(child_mutated_vector, parent_vector)
 
             # compute the min distance and mean distance
             min_distance.append(min(new_parent_fitness))

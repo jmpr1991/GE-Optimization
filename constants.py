@@ -31,7 +31,7 @@ N_INDIVIDUALS = 2  # number of individuals participating in the tournament (do n
 PC = 1 # crossover probability
 
 # mutation
-pm = 1 # probability of mutation
+PM = 0.1 # probability of mutation
 
 # termination condition
 n_generations = 20000 #number of generations
