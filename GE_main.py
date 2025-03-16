@@ -23,6 +23,7 @@ def main():
     all_mean_fitness = []
     all_std_fitness = []
     total_generations = []
+    solution = []
 
     # initialize success rate and success mean evaluations number (pex) parameters
     success_rate = 0
@@ -75,15 +76,16 @@ def main():
                     total_generations.append(number_generations)
 
                     index_best_ind = list(new_parent_fitness).index(min(new_parent_fitness))
-                    solution, _ = bnf_grammar.generate(child_mutated_vector[index_best_ind])
-                    print(solution)
+                    eq, _ = bnf_grammar.generate(child_mutated_vector[index_best_ind])
+                    solution.append(eq)
+                    print(eq)
                     break
 
                 if min(new_parent_fitness) < constants.DELTA:
                     total_generations.append(number_generations)
                     index_best_ind = list(new_parent_fitness).index(min(new_parent_fitness))
-                    solution, _ = bnf_grammar.generate(child_mutated_vector[index_best_ind])
-                    print(solution)
+                    eq, _ = bnf_grammar.generate(child_mutated_vector[index_best_ind])
+                    print(eq)
                     break
 
             else:
@@ -102,7 +104,7 @@ def main():
     # print statistics and plots
     statistics_plots.statistics(all_min_fitness, total_generations, success_rate, pex)
     statistics_plots.graphics(all_min_fitness, all_mean_fitness, all_std_fitness)
-
+    statistics_plots.representation(solution[0])
 
 if __name__ == "__main__":
     main()

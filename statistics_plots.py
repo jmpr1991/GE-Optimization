@@ -1,7 +1,9 @@
 import numpy as np
+import math
 import matplotlib.pyplot as plt
 
 import constants
+import evaluation
 
 def statistics(distances_vector, generation_vector, success_rate, pex):
     """
@@ -45,3 +47,30 @@ def graphics(min_distance_vector, mean_distance_vector, std_distance_vector):
     plt.ylabel('Adaptation function (distance)')
     plt.legend(['best individual', 'population mean', 'error band'])
     plt.show()
+
+def representation(integral):
+
+    n_points = (constants.X_RIGHT - constants.X_LEFT) * constants.N
+
+    # initialization
+    vector = np.linspace(constants.X_LEFT, constants.X_RIGHT, n_points)
+    fun = np.full(n_points, np.nan)
+    fun_integral = np.full(n_points, np.nan)
+
+    for i in range(n_points):
+        x = vector[i]
+        fun[i] = evaluation.function(x)
+        fun_integral[i] = eval(integral)
+
+    # print both functions
+    plt.plot(vector, fun , linewidth=0.6)
+    plt.plot(vector, fun_integral,  linewidth=0.6, color='darkred')
+
+    plt.title('{} individuals progress curve '
+              '\n Best individual and population mean for each generation'.format(constants.N_CODONS))
+    plt.xlabel('x')
+    plt.ylabel('fun(x),  F(x)')
+    plt.legend(['fun(x)', 'F(x)'])
+    plt.show()
+
+

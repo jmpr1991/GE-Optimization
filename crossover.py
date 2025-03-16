@@ -40,8 +40,8 @@ def crossover_function(parent_vector):
             # create the second child
             n_children = n_children + 1
 
-            child_vector[n_children, :point] = parent_vector[parents_crossover[1], :point]
-            child_vector[n_children, point:] = parent_vector[parents_crossover[0], point:]
+            child_vector[n_children, :(constants.N_CODONS-point)] = parent_vector[parents_crossover[1], point:]
+            child_vector[n_children, (constants.N_CODONS-point):] = parent_vector[parents_crossover[0], :point]
 
             # go to the next iteration
             n_children = n_children + 1

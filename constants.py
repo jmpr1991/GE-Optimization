@@ -1,5 +1,5 @@
 """
-This file contain the constants of the tsp problem
+This file contain the constants of the problem
 """
 
 #  randon_vector_generator constants
@@ -10,8 +10,9 @@ N_CODONS = 10  #number of cities
 MAX_WRAPS = 10
 
 # evaluation function constants
-MAX_EVAL_FUN = 1e2
+MAX_EVAL_FUN = 50
 FUN_OPTION = 1
+F0 = -0.25
 X_LEFT = -2
 X_RIGHT = 2
 U = 0.1
@@ -31,7 +32,7 @@ N_INDIVIDUALS = 2  # number of individuals participating in the tournament (do n
 PC = 1 # crossover probability
 
 # mutation
-PM = 0.05 # probability of mutation
+PM = 0.2 # probability of mutation
 
 # termination condition
 N_GENERATIONS = 2000 #number of generations
