@@ -3,7 +3,7 @@ import evaluation
 
 import numpy as np
 
-def mutation_function(child_vector):
+def mutation_function(child_vector, grammar):
     """
     Mutation function for integer representation of the individuals
     :param child_vector: input vector
@@ -11,6 +11,8 @@ def mutation_function(child_vector):
     """
     # initialize the variables
     child_mutated_vector = np.zeros((constants.POPULATION_SIZE, constants.N_CODONS))
+    child_mutated_fitness = [None for i in range(constants.POPULATION_SIZE)]
+    equations = [None for i in range(constants.POPULATION_SIZE)]
 
     for ind in range(constants.POPULATION_SIZE):
 
@@ -27,6 +29,9 @@ def mutation_function(child_vector):
 
             # no mutation
             else:
-                child_mutated_vector[ind, i] = child_vector[ind, i]
+                child_mutated_vector[ind, :] = child_vector[ind, :]
 
-    return child_mutated_vector.astype(int)
+        equations[ind], _ = grammar.generate(child_mutated_vector[ind].astype(int))
+        child_mutated_fitness[ind] = evaluation.eval_function(equations[ind])
+
+    return child_mutated_vector.astype(int), child_mutated_fitness, equations

@@ -11,12 +11,13 @@ def initialization_function(grammar):
     """
     this function initialize the initial vector
     :return: init_vector: matrix built with permutations of the initial vector
-    :return: init_distance: distance of the different permutated vectors
+    :return: parent_fitness: fitness of the intialized vectors
     """
 
     # vector initialization
     init_vector = np.zeros((constants.POPULATION_SIZE, constants.N_CODONS))
     parent_fitness = [None for i in range(constants.POPULATION_SIZE)]
+    equations = [None for i in range(constants.POPULATION_SIZE)]
 
     # initialize the population
     i = 0
@@ -28,6 +29,7 @@ def initialization_function(grammar):
 
         if output is not None:
             parent_fitness[i] = evaluation.eval_function(output)
+            equations[i] = output
             if parent_fitness[i] < constants.MAX_EVAL_FUN:
                 i = i + 1
 
@@ -35,5 +37,5 @@ def initialization_function(grammar):
                 if i == constants.POPULATION_SIZE:
                     break
 
-    return init_vector.astype(int), parent_fitness
+    return init_vector.astype(int), parent_fitness, equations
 

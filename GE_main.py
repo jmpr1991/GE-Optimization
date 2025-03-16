@@ -32,7 +32,7 @@ def main():
         print("execution {}".format(execution_i+1), "on going")
 
         # initialize the population
-        parent_vector, parent_fitness = initialization.initialization_function(bnf_grammar)
+        parent_vector, parent_fitness, equations = initialization.initialization_function(bnf_grammar)
 
         # initialize variables
         min_fitness = []
@@ -43,6 +43,7 @@ def main():
 
         # generation evolution loop
         while number_generations < constants.N_GENERATIONS:
+            print(number_generations)
 
             # parent selection
             parent_sel_vector = parent_selection.parent_selection_function(parent_vector, parent_fitness)
@@ -51,17 +52,14 @@ def main():
             child_vector = crossover.crossover_function(parent_sel_vector)
 
             # mutation
-            child_mutated_vector = mutation.mutation_function(child_vector)
-            child_mutated_fitness = np.zeros(constants.POPULATION_SIZE)
-            for ind in range(len(parent_vector)):
-                output, _ = bnf_grammar.generate(child_mutated_vector[ind])
-                child_mutated_fitness[ind] = evaluation.eval_function(output)
+            child_mutated_vector, child_mutated_fitness, equations = mutation.mutation_function(child_vector, bnf_grammar)
 
             # survival selections and elitism
-            new_parent_vector, new_parent_fitness = survival_elitism.survival_elitism_function(child_mutated_vector,
+            new_parent_vector, new_parent_fitness, new_equations = survival_elitism.survival_elitism_function(child_mutated_vector,
                                                                                                child_mutated_fitness,
                                                                                                parent_vector,
                                                                                                parent_fitness,
+                                                                                               equations,
                                                                                                bnf_grammar)
 
             # compute the min distance and mean distance
@@ -76,6 +74,13 @@ def main():
                 if termination_generation == constants.END_CONDITION:
                     total_generations.append(number_generations)
 
+                    index_best_ind = list(new_parent_fitness).index(min(new_parent_fitness))
+                    solution, _ = bnf_grammar.generate(child_mutated_vector[index_best_ind])
+                    print(solution)
+                    break
+
+                if min(new_parent_fitness) < constants.DELTA:
+                    total_generations.append(number_generations)
                     index_best_ind = list(new_parent_fitness).index(min(new_parent_fitness))
                     solution, _ = bnf_grammar.generate(child_mutated_vector[index_best_ind])
                     print(solution)
