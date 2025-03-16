@@ -35,11 +35,12 @@ def survival_elitism_function(child_mutated_vector, child_mutated_fitness, paren
         new_parent_vector = child_mutated_vector
         new_parent_fitness = child_mutated_fitness
 
-
-    for ind in range(constants.N_INDIVIDUALS):
-        if new_parent_fitness[ind] >= constants.MAX_EVAL_FUN:
-            new_parent_vector[ind, :] = np.random.randint(2**constants.CODON_BITS, size=constants.N_CODONS)
-            output, _ = grammar.generate(new_parent_vector[ind])
-            child_mutated_fitness[ind] = evaluation.eval_function(output)
+    #substitute invalid individuals with new ones
+    for ind in range(constants.POPULATION_SIZE):
+        if new_parent_fitness[ind] is np.nan or new_parent_fitness[ind] >= constants.MAX_EVAL_FUN:
+            while new_parent_fitness[ind] is np.nan or new_parent_fitness[ind] >= constants.MAX_EVAL_FUN:
+                new_parent_vector[ind, :] = np.random.randint(2**constants.CODON_BITS, size=constants.N_CODONS)
+                output, _ = grammar.generate(new_parent_vector[ind])
+                new_parent_fitness[ind] = evaluation.eval_function(output)
 
     return new_parent_vector, new_parent_fitness

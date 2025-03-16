@@ -32,12 +32,7 @@ def main():
         print("execution {}".format(execution_i+1), "on going")
 
         # initialize the population
-        parent_vector = initialization.initialization_function()
-
-        parent_fitness = np.zeros(constants.POPULATION_SIZE)
-        for ind in range(len(parent_vector)):
-            output, _ = bnf_grammar.generate(parent_vector[ind])
-            parent_fitness[ind] = evaluation.eval_function(output)
+        parent_vector, parent_fitness = initialization.initialization_function(bnf_grammar)
 
         # initialize variables
         min_fitness = []

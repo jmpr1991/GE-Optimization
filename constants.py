@@ -10,7 +10,7 @@ N_CODONS = 10  #number of cities
 MAX_WRAPS = 10
 
 # evaluation function constants
-MAX_EVAL_FUN = 1e6
+MAX_EVAL_FUN = 1e5
 FUN_OPTION = 1
 X_LEFT = -2
 X_RIGHT = 2

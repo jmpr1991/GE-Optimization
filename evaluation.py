@@ -1,3 +1,5 @@
+from fileinput import lineno
+
 import constants
 import numpy as np
 
@@ -22,7 +24,7 @@ def function(x):
 def eval_function(integral):
     """
     evaluation function
-    :param integral: string with potential integral function whihc has to be evaluated
+    :param integral: string with potential integral function which has to be evaluated
     :return: function value
     """
 
@@ -30,20 +32,33 @@ def eval_function(integral):
     if integral is None:
         return constants.MAX_EVAL_FUN
 
+    n_points = (constants.X_RIGHT - constants.X_LEFT) * constants.N
+    vector = np.linspace(constants.X_LEFT, constants.X_RIGHT, n_points)
     sum = 0
-    for i in range((constants.X_RIGHT - constants.X_LEFT) * constants.N):
+    for i in range(n_points):
 
-        x = constants.X_LEFT + i + constants.h
+        x = vector[i] + constants.h
         try:
-            F1 = eval(integral)
+            with np.errstate(divide='ignore', invalid='ignore'):
+                F1 = eval(integral)
+                if F1 =n
         except ZeroDivisionError:
-            F1 = constants.MAX_EVAL_FUN
+            sum = np.nan
+            break
+        except OverflowError:
+            sum = np.nan
+            break
 
-        x = constants.X_LEFT + i
+
+        x = vector[i]
         try:
             F2 = eval(integral)
         except ZeroDivisionError:
-            F2 = constants.MAX_EVAL_FUN
+            sum = np.nan
+            break
+        except OverflowError:
+            sum = np.nan
+            break
 
 
         F_prim = (F1 - F2) / constants.h
@@ -53,7 +68,10 @@ def eval_function(integral):
         else:
             sum = sum + constants.K1 * np.abs(F_prim - function(x))
 
-    fun_eval = 1 / (constants.N + 1) * sum
+    if sum is np.nan:
+        fun_eval = constants.MAX_EVAL_FUN
+    else:
+        fun_eval = 1 / (constants.N + 1) * sum
 
     return fun_eval
 
