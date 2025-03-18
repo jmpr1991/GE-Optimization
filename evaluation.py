@@ -16,11 +16,12 @@ def function(x):
     if constants.FUN_OPTION == 1:
         fun = 1/4 * (3*x**2 - 2*x + 1)
     elif constants.FUN_OPTION == 2:
-        fun = np.log(1 + x) + x / (1 + x)
+        fun = math.log(1 + x) + x / (1 + x)
     elif constants.FUN_OPTION == 3:
-        fun = np.exp(x) * (np.sin(x) + np.cos(x))
+        fun = math.exp(x) * (math.sin(x) + math.cos(x))
 
     return fun
+
 
 def eval_function(integral):
     """
@@ -59,13 +60,18 @@ def eval_function(integral):
             sum = np.nan
             break
 
+        # if constant function. break and return nan to repeat iteration
+        if F1 == F2:
+            sum = np.nan
+            break
+
         F_prim = (F1 - F2) / constants.h
 
         # compute fitness
-        if np.abs(F_prim - function(x)) <= constants.U:
-            sum = sum + constants.K0 * np.abs(F_prim - function(x))
+        if abs(F_prim - function(x)) <= constants.U:
+            sum = sum + constants.K0 * abs(F_prim - function(x))
         else:
-            sum = sum + constants.K1 * np.abs(F_prim - function(x))
+            sum = sum + constants.K1 * abs(F_prim - function(x))
 
     # invalid function
     if sum is np.nan:
@@ -76,6 +82,21 @@ def eval_function(integral):
 
     return fun_eval
 
+def integral_function(x):
+    """
+    integral function
+    :param x: independent variable
+    :return: function value
+    """
 
+    F = np.nan
+    if constants.FUN_OPTION == 1:
+        F = 1/4 * (x**2 + 1) * (x - 1)
+    elif constants.FUN_OPTION == 2:
+        F = x * math.log(1 + x)
+    elif constants.FUN_OPTION == 3:
+        F = math.exp(x) * math.sin(x)
+
+    return F
 
 

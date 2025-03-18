@@ -85,6 +85,7 @@ def main():
                     total_generations.append(number_generations)
                     index_best_ind = list(new_parent_fitness).index(min(new_parent_fitness))
                     eq, _ = bnf_grammar.generate(child_mutated_vector[index_best_ind])
+                    solution.append(eq)
                     print(eq)
                     break
 

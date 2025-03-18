@@ -39,7 +39,7 @@ def graphics(min_distance_vector, mean_distance_vector, std_distance_vector):
     plt.plot(np.array(min_distance_vector[0]), linewidth=0.6)
     plt.plot(np.array(mean_distance_vector[0]), linewidth=0.6, color='darkred')
     plt.errorbar(y=np.array(mean_distance_vector[0]), x=[i for i in range(len(np.array(mean_distance_vector[0])))],
-                 yerr=np.array(std_distance_vector[0]), errorevery=int(len(np.array(mean_distance_vector[0]))/10),
+                 yerr=np.array(std_distance_vector[0]), errorevery=int(len(np.array(mean_distance_vector[0]))/5),
                  fmt='none', elinewidth=0.3, ecolor='darkred',capsize=5, ls='-.', label='error bar')
     plt.title('{} individuals progress curve '
               '\n Best individual and population mean for each generation'.format(constants.N_CODONS))
@@ -54,23 +54,22 @@ def representation(integral):
 
     # initialization
     vector = np.linspace(constants.X_LEFT, constants.X_RIGHT, n_points)
-    fun = np.full(n_points, np.nan)
+    F = np.full(n_points, np.nan)
     fun_integral = np.full(n_points, np.nan)
 
     for i in range(n_points):
         x = vector[i]
-        fun[i] = evaluation.function(x)
+        F[i] = evaluation.integral_function(x)
         fun_integral[i] = eval(integral)
 
     # print both functions
-    plt.plot(vector, fun , linewidth=0.6)
+    plt.plot(vector, F , linewidth=0.6)
     plt.plot(vector, fun_integral,  linewidth=0.6, color='darkred')
 
-    plt.title('{} individuals progress curve '
-              '\n Best individual and population mean for each generation'.format(constants.N_CODONS))
+    plt.title('function representation')
     plt.xlabel('x')
-    plt.ylabel('fun(x),  F(x)')
-    plt.legend(['fun(x)', 'F(x)'])
+    plt.ylabel('F(x),  estimated F(x)')
+    plt.legend(['F(x)', 'estimatedF(x)'])
     plt.show()
 
 

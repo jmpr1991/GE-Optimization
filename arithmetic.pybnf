@@ -2,9 +2,9 @@
 # as special tokens indicating blocks. Define a variable
 # XXXeval_or_exec_outputXXX which will be your return value.
 
-<code> ::= (<expr> <op> <expr>)
+<code> ::= <expr>
 
 <expr> ::= <expr> <op> <expr> | (<expr> <op> <expr>) | <pre_op>(<expr>) | <var>
-<op> ::= + | - | * | ** | /
+<op> ::= + | - | * | /
 <pre_op> ::= math.sin | math.cos | math.exp | math.log
 <var> ::= x | x**2 | 1.0 | 2.0

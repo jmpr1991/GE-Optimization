@@ -31,17 +31,23 @@ def crossover_function(parent_vector):
         if crossover_prob_i <= constants.PC:
 
             # generate the point for crossover
-            point = np.random.randint(0, constants.N_CODONS)
+            if constants.LOCAL_SEARCH is True:
+                point = constants.CODON_CONSTRAINT * np.random.randint(0, constants.N_CODONS / constants.CODON_CONSTRAINT)
+            else:
+                point = np.random.randint(0, constants.N_CODONS)
 
             # create the first child
-            child_vector[n_children, :point] = parent_vector[parents_crossover[0], :point]
-            child_vector[n_children, point:] = parent_vector[parents_crossover[1], point:]
+            child_vector[n_children, :point] = parent_vector[parents_crossover[1], :point]
+            child_vector[n_children, point:] = parent_vector[parents_crossover[0], point:]
 
             # create the second child
             n_children = n_children + 1
 
-            child_vector[n_children, :(constants.N_CODONS-point)] = parent_vector[parents_crossover[1], point:]
-            child_vector[n_children, (constants.N_CODONS-point):] = parent_vector[parents_crossover[0], :point]
+            child_vector[n_children, :point] = parent_vector[parents_crossover[0], :point]
+            child_vector[n_children, point:] = parent_vector[parents_crossover[1], point:]
+
+            #child_vector[n_children, :(constants.N_CODONS-point)] = parent_vector[parents_crossover[1], point:]
+            #child_vector[n_children, (constants.N_CODONS-point):] = parent_vector[parents_crossover[0], :point]
 
             # go to the next iteration
             n_children = n_children + 1
