@@ -3,7 +3,7 @@ import evaluation
 
 import numpy as np
 
-def survival_elitism_function(child_mutated_vector, child_mutated_fitness, parent_vector, parent_fitness, equations, grammar):
+def survival_elitism_function(child_mutated_vector, child_mutated_fitness, parent_vector, parent_fitness, equations, penalty_weight, grammar):
     """
     This function creates the new generation with elitism, substituting the worst individual of the new generation with
      the best individual of the current generation and
@@ -30,7 +30,7 @@ def survival_elitism_function(child_mutated_vector, child_mutated_fitness, paren
         new_parent_fitness = child_mutated_fitness
         new_parent_fitness[index_worst_individual] = parent_fitness[index_best_individual]
         new_equations = equations
-        new_equations[index_worst_individual] = new_equations[index_best_individual]
+        new_equations[index_worst_individual], _ = grammar.generate(best_individual)
 
     # create the new generation without elitism
     else:
@@ -39,11 +39,11 @@ def survival_elitism_function(child_mutated_vector, child_mutated_fitness, paren
         new_equations = equations
 
     #substitute invalid individuals with new ones
-    for ind in range(constants.POPULATION_SIZE):
-        if new_parent_fitness[ind] is np.nan or new_parent_fitness[ind] >= constants.MAX_EVAL_FUN:
-            while new_parent_fitness[ind] is np.nan or new_parent_fitness[ind] >= constants.MAX_EVAL_FUN:
-                new_parent_vector[ind, :] = np.random.randint(2**constants.CODON_BITS, size=constants.N_CODONS)
-                new_equations[ind], _ = grammar.generate(new_parent_vector[ind])
-                new_parent_fitness[ind] = evaluation.eval_function(new_equations[ind])
+    #for ind in range(constants.POPULATION_SIZE):
+    #    if new_parent_fitness[ind] is np.nan or new_equations[ind] is None or new_parent_fitness[ind] >= constants.MAX_EVAL_FUN:
+    #        while new_parent_fitness[ind] is np.nan or new_equations[ind] is None or new_parent_fitness[ind] >= constants.MAX_EVAL_FUN:
+    #            new_parent_vector[ind, :] = np.random.randint(2**constants.CODON_BITS, size=constants.N_CODONS)
+    #            new_equations[ind], _ = grammar.generate(new_parent_vector[ind])
+    #            new_parent_fitness[ind] = evaluation.eval_function(new_equations[ind], penalty_weight)
 
     return new_parent_vector, new_parent_fitness, new_equations

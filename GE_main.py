@@ -9,6 +9,7 @@ import survival_elitism
 import statistics_plots
 
 import numpy as np
+import math
 
 
 def main():
@@ -32,8 +33,17 @@ def main():
     for execution_i in range(constants.N_EXECUTIONS):
         print("execution {}".format(execution_i+1), "on going")
 
+        # constraints parameters initialization
+        constraint_met = 0
+        constraint_not_met = 0
+        constraint_gen_met = 0
+        constraint_gen_not_met = 0
+
         # initialize the population
         parent_vector, parent_fitness, equations = initialization.initialization_function(bnf_grammar)
+
+        #initialize penalty to meet constraints
+        penalty_weight = constants.INITIAL_PENALTY
 
         # initialize variables
         min_fitness = []
@@ -47,21 +57,61 @@ def main():
             print(number_generations)
 
             # parent selection
-            parent_sel_vector = parent_selection.parent_selection_function(parent_vector, parent_fitness)
+            #parent_sel_vector = parent_selection.parent_selection_function(parent_vector, parent_fitness)
 
             # crossover
-            child_vector = crossover.crossover_function(parent_sel_vector)
+            child_vector = crossover.crossover_function(parent_vector)
 
             # mutation
-            child_mutated_vector, child_mutated_fitness, equations = mutation.mutation_function(child_vector, bnf_grammar)
+            child_mutated_vector, child_mutated_fitness, mutated_equations = mutation.mutation_function(child_vector, bnf_grammar, penalty_weight)
 
             # survival selections and elitism
             new_parent_vector, new_parent_fitness, new_equations = survival_elitism.survival_elitism_function(child_mutated_vector,
                                                                                                child_mutated_fitness,
                                                                                                parent_vector,
                                                                                                parent_fitness,
-                                                                                               equations,
+                                                                                               mutated_equations,
+                                                                                               penalty_weight,
                                                                                                bnf_grammar)
+
+            # update GA parameters
+            # select the best individual of the parent vector
+            index_best_individual = np.argmin(new_parent_fitness[:])
+            best_function = new_equations[index_best_individual]
+
+            # compute penalty
+            x = constants.X_CONSTRAINT
+            try:
+                penalty = abs(float(eval(best_function)) - constants.F0)
+            except (ZeroDivisionError, OverflowError, ValueError, RuntimeWarning, TypeError):
+                penalty = constants.MAX_EVAL_FUN
+
+
+            #compute updated constraint_weight
+            if penalty < constants.DELTA:
+                constraint_met = constraint_met + 1
+                constraint_not_met = 0
+                constraint_gen_not_met = 0
+                constraint_gen_met = constraint_gen_met + 1
+                if constraint_gen_met == constants.NF:
+                    penalty_weight = 1 / constants.BETA2 * penalty_weight
+                    constraint_gen_met = 0
+
+                    #revaluate population
+                    for ind in range(constants.POPULATION_SIZE):
+                        new_parent_fitness[ind] = evaluation.eval_function(new_equations[ind], penalty_weight)
+            else:
+                constraint_not_met = constraint_not_met + 1
+                constraint_met = 0
+                constraint_gen_met = 0
+                constraint_gen_not_met = constraint_gen_not_met + 1
+                if constraint_gen_not_met == constants.NF:
+                    penalty_weight = constants.BETA1 * penalty_weight
+                    constraint_gen_not_met = 0
+
+                    # revaluate population
+                    for ind in range(constants.POPULATION_SIZE):
+                        new_parent_fitness[ind] = evaluation.eval_function(new_equations[ind], penalty_weight)
 
             # compute the min distance and mean distance
             min_fitness.append(min(new_parent_fitness))
@@ -76,17 +126,16 @@ def main():
                     total_generations.append(number_generations)
 
                     index_best_ind = list(new_parent_fitness).index(min(new_parent_fitness))
-                    eq, _ = bnf_grammar.generate(child_mutated_vector[index_best_ind])
-                    solution.append(eq)
-                    print(eq)
+                    solution.append(new_equations[index_best_ind])
+                    print(new_equations[index_best_ind])
                     break
 
                 if min(new_parent_fitness) < constants.DELTA:
                     total_generations.append(number_generations)
+
                     index_best_ind = list(new_parent_fitness).index(min(new_parent_fitness))
-                    eq, _ = bnf_grammar.generate(child_mutated_vector[index_best_ind])
-                    solution.append(eq)
-                    print(eq)
+                    solution.append(new_equations[index_best_ind])
+                    print(new_equations[index_best_ind])
                     break
 
             else:

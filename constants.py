@@ -11,7 +11,8 @@ MAX_WRAPS = 10
 
 # evaluation function constants
 MAX_EVAL_FUN = 50
-FUN_OPTION = 3
+FUN_OPTION = 1
+X_CONSTRAINT = 0
 F0 = -0.25
 X_LEFT = -2
 X_RIGHT = 2
@@ -23,7 +24,8 @@ h = 1e-5 # derivation constant
 
 # restrictions
 PENALTY = True
-X_PENLATY = 0
+INITIAL_PENALTY = 0
+NF = 4
 BETA1 = 4
 BETA2 = 2.8
 
@@ -42,9 +44,9 @@ N_INDIVIDUALS = 2  # number of individuals participating in the tournament (do n
 PC = 0.9 # crossover probability
 
 # mutation
-PM = 0.5 # probability of mutation
+PM = 0.05 # probability of mutation
 
 # termination condition
 N_GENERATIONS = 2000 #number of generations
 END_CONDITION = 50 # max number of generations without improvement
-DELTA = 1e-4
+DELTA = 1e-3

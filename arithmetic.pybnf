@@ -7,4 +7,4 @@
 <expr> ::= <expr> <op> <expr> | (<expr> <op> <expr>) | <pre_op>(<expr>) | <var>
 <op> ::= + | - | * | /
 <pre_op> ::= math.sin | math.cos | math.exp | math.log
-<var> ::= x | x**2 | 1.0 | 2.0
+<var> ::= x | x**2 | x**3 | 1.0 | 2.0

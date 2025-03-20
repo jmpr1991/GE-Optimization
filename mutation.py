@@ -3,7 +3,7 @@ import evaluation
 
 import numpy as np
 
-def mutation_function(child_vector, grammar):
+def mutation_function(child_vector, grammar, penalty_weight):
     """
     Mutation function for integer representation of the individuals
     :param child_vector: input vector
@@ -32,6 +32,6 @@ def mutation_function(child_vector, grammar):
                 child_mutated_vector[ind, :] = child_vector[ind, :]
 
         equations[ind], _ = grammar.generate(child_mutated_vector[ind].astype(int))
-        child_mutated_fitness[ind] = evaluation.eval_function(equations[ind])
+        child_mutated_fitness[ind] = evaluation.eval_function(equations[ind], penalty_weight)
 
     return child_mutated_vector.astype(int), child_mutated_fitness, equations
