@@ -34,7 +34,7 @@ LOCAL_SEARCH = False
 CODON_CONSTRAINT = 5
 
 # Initialization
-POPULATION_SIZE = 500 # population size (select an even number of permutations to avoid errors)
+POPULATION_SIZE = 10 # population size (select an even number of permutations to avoid errors)
 
 # parent selection
 N_TOURNAMENTS = POPULATION_SIZE  # number of tournaments, lambda in the literature

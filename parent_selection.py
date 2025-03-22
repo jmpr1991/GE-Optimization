@@ -14,7 +14,7 @@ def parent_selection_function(individuals_vector, fitness_vector):
 
     # initialize the variables
     parent_vector = np.zeros((constants.POPULATION_SIZE, constants.N_CODONS))
-    #parent_fitness = np.zeros(constants.POPULATION_SIZE)
+    parent_fitness = np.zeros(constants.POPULATION_SIZE)
     list_parents = [i for i in range(constants.POPULATION_SIZE)]
 
     # tournament loop
@@ -36,9 +36,9 @@ def parent_selection_function(individuals_vector, fitness_vector):
 
         # build the parent vector and parent distance
         parent_vector[i] = individuals_vector[tournament_individuals[index], :]
-        #parent_fitness[i] = min(tournament_fitness)
+        parent_fitness[i] = min(tournament_fitness)
 
-    return parent_vector.astype(int)
+    return parent_vector.astype(int), parent_fitness
 
 
      

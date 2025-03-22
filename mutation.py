@@ -29,7 +29,7 @@ def mutation_function(child_vector, grammar, penalty_weight):
 
             # no mutation
             else:
-                child_mutated_vector[ind, :] = child_vector[ind, :]
+                child_mutated_vector[ind] = child_vector[ind]
 
         equations[ind], _ = grammar.generate(child_mutated_vector[ind].astype(int))
         child_mutated_fitness[ind] = evaluation.eval_function(equations[ind], penalty_weight)

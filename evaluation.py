@@ -44,7 +44,7 @@ def eval_function(integral, penalty_weight=0):
 
         x = vector[i] + constants.h
         try:
-            F1 = float(eval(integral))
+            F1 = eval(integral)
 
         # if error sum=nan
         except (ZeroDivisionError, OverflowError, ValueError, RuntimeWarning, TypeError):
@@ -53,7 +53,7 @@ def eval_function(integral, penalty_weight=0):
 
         x = vector[i]
         try:
-            F2 = float(eval(integral))
+            F2 = eval(integral)
 
         # if error sum=nan
         except (ZeroDivisionError, OverflowError, ValueError, RuntimeWarning, TypeError):
@@ -81,7 +81,7 @@ def eval_function(integral, penalty_weight=0):
         #compute penalty
         x = constants.X_CONSTRAINT
         try:
-            penalty = abs(float(eval(integral)) - constants.F0)
+            penalty = abs(eval(integral) - constants.F0)
         # if error sum=nan
         except (ZeroDivisionError, OverflowError, ValueError, RuntimeWarning, TypeError):
             fun_eval = constants.MAX_EVAL_FUN

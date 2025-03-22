@@ -37,14 +37,16 @@ def crossover_function(parent_vector):
                 point = np.random.randint(0, constants.N_CODONS)
 
             # create the first child
-            child_vector[n_children, :point] = parent_vector[parents_crossover[1], :point]
-            child_vector[n_children, point:] = parent_vector[parents_crossover[0], point:]
+            #child_vector[n_children, :point] = parent_vector[parents_crossover[1], :point]
+            #child_vector[n_children, point:] = parent_vector[parents_crossover[0], point:]
+            child_vector[n_children] = np.concatenate((parent_vector[parents_crossover[1], :point], parent_vector[parents_crossover[0], point:]))
 
             # create the second child
             n_children = n_children + 1
 
-            child_vector[n_children, :point] = parent_vector[parents_crossover[0], :point]
-            child_vector[n_children, point:] = parent_vector[parents_crossover[1], point:]
+            #child_vector[n_children, :point] = parent_vector[parents_crossover[0], :point]
+            #child_vector[n_children, point:] = parent_vector[parents_crossover[1], point:]
+            child_vector[n_children] = np.concatenate((parent_vector[parents_crossover[0], :point], parent_vector[parents_crossover[1], point:]))
 
             #child_vector[n_children, :(constants.N_CODONS-point)] = parent_vector[parents_crossover[1], point:]
             #child_vector[n_children, (constants.N_CODONS-point):] = parent_vector[parents_crossover[0], :point]
@@ -55,11 +57,11 @@ def crossover_function(parent_vector):
         # clone the parents if the following condition is met
         else:
             #clone parent 1
-            child_vector[n_children, :] = parent_vector[parents_crossover[0], :]
+            child_vector[n_children] = parent_vector[parents_crossover[0]]
             n_children = n_children + 1
 
             # clone parent 2
-            child_vector[n_children, :] = parent_vector[parents_crossover[1], :]
+            child_vector[n_children] = parent_vector[parents_crossover[1]]
             n_children = n_children + 1
 
     return child_vector.astype(int)

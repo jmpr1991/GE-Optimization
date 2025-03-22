@@ -57,10 +57,10 @@ def main():
             print(number_generations)
 
             # parent selection
-            #parent_sel_vector = parent_selection.parent_selection_function(parent_vector, parent_fitness)
+            parent_sel_vector, parent_sel_fitness = parent_selection.parent_selection_function(parent_vector, parent_fitness)
 
             # crossover
-            child_vector = crossover.crossover_function(parent_vector)
+            child_vector = crossover.crossover_function(parent_sel_vector)
 
             # mutation
             child_mutated_vector, child_mutated_fitness, mutated_equations = mutation.mutation_function(child_vector, bnf_grammar, penalty_weight)
