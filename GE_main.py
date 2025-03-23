@@ -34,8 +34,6 @@ def main():
         print("execution {}".format(execution_i+1), "on going")
 
         # constraints parameters initialization
-        constraint_met = 0
-        constraint_not_met = 0
         constraint_gen_met = 0
         constraint_gen_not_met = 0
 
@@ -60,10 +58,10 @@ def main():
             parent_sel_vector, parent_sel_fitness = parent_selection.parent_selection_function(parent_vector, parent_fitness)
 
             # crossover
-            child_vector = crossover.crossover_function(parent_sel_vector, parent_sel_fitness)
+            child_vector, child_fitness = crossover.crossover_function(parent_sel_vector, parent_sel_fitness, parent_fitness, bnf_grammar, penalty_weight)
 
             # mutation
-            child_mutated_vector, child_mutated_fitness, mutated_equations = mutation.mutation_function(child_vector, bnf_grammar, penalty_weight)
+            child_mutated_vector, child_mutated_fitness, mutated_equations = mutation.mutation_function(child_vector, child_fitness, bnf_grammar, penalty_weight)
 
             # survival selections and elitism
             new_parent_vector, new_parent_fitness, new_equations = survival_elitism.survival_elitism_function(child_mutated_vector,
@@ -85,15 +83,13 @@ def main():
             # compute penalty
             x = constants.X_CONSTRAINT
             try:
-                penalty = abs(float(eval(best_function)) - constants.F0)
+                penalty = abs(eval(best_function) - constants.F0)
             except (ZeroDivisionError, OverflowError, ValueError, RuntimeWarning, TypeError):
                 penalty = constants.MAX_EVAL_FUN
 
 
             #compute updated constraint_weight
             if penalty < constants.DELTA:
-                constraint_met = constraint_met + 1
-                constraint_not_met = 0
                 constraint_gen_not_met = 0
                 constraint_gen_met = constraint_gen_met + 1
                 if constraint_gen_met == constants.NF:
@@ -104,8 +100,6 @@ def main():
                     for ind in range(constants.POPULATION_SIZE):
                         new_parent_fitness[ind] = evaluation.eval_function(new_equations[ind], penalty_weight)
             else:
-                constraint_not_met = constraint_not_met + 1
-                constraint_met = 0
                 constraint_gen_met = 0
                 constraint_gen_not_met = constraint_gen_not_met + 1
                 if constraint_gen_not_met == constants.NF:

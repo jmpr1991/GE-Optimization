@@ -22,7 +22,6 @@ def function(x):
 
     return fun
 
-
 def eval_function(integral, penalty_weight=0):
     """
     evaluation function

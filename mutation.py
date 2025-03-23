@@ -3,7 +3,7 @@ import evaluation
 
 import numpy as np
 
-def mutation_function(child_vector, grammar, penalty_weight):
+def mutation_function(child_vector, child_fitness, grammar, penalty_weight):
     """
     Mutation function for integer representation of the individuals
     :param child_vector: input vector
@@ -16,13 +16,24 @@ def mutation_function(child_vector, grammar, penalty_weight):
 
     for ind in range(constants.POPULATION_SIZE):
 
+        # compute the mutation probability per individual
+        if constants.ADAPTATIVE_VARIATION is True:
+            if child_fitness[ind] >= np.mean(child_fitness):
+                mutation_prob = constants.PM_K4
+            else:
+                mutation_prob = (constants.PM_K2 *
+                                 (child_fitness[ind] - min(child_fitness)) / (np.mean(child_fitness) - min(child_fitness)))
+
+        else:
+            mutation_prob = constants.PM
+
         for i in range(constants.N_CODONS):
 
             # generate a crossover probability with uniform distribution
             mutation_prob_i = np.random.uniform(0.0, 1.0)
 
             # proceed with the mutation
-            if mutation_prob_i <= constants.PM:
+            if mutation_prob_i <= mutation_prob:
 
                 # mutate the child
                 child_mutated_vector[ind, i] = np.random.randint(2**constants.CODON_BITS)
@@ -43,6 +54,5 @@ def mutation_function(child_vector, grammar, penalty_weight):
 
         child_mutated_fitness[ind] = fitness
         equations[ind] = fun
-
 
     return child_mutated_vector.astype(int), child_mutated_fitness, equations
