@@ -33,7 +33,7 @@ def eval_function(integral, penalty_weight=0):
 
     # if the element is incomplete after wrapping process return the maximum fitness value
     if integral is None:
-        return constants.MAX_EVAL_FUN
+        return constants.MAX_EVAL_FUN + abs(np.random.normal())
 
     n_points = (constants.X_RIGHT - constants.X_LEFT) * constants.N
     vector = np.linspace(constants.X_LEFT, constants.X_RIGHT, n_points)
@@ -65,7 +65,11 @@ def eval_function(integral, penalty_weight=0):
             sum = np.nan
             break
 
-        F_prim = (F1 - F2) / constants.h
+        try:
+            F_prim = (F1 - F2) / constants.h
+        except (ZeroDivisionError, OverflowError, ValueError, RuntimeWarning, TypeError):
+            sum = np.nan
+            break
 
         # compute fitness
         if abs(F_prim - function(x)) <= constants.U:
@@ -75,7 +79,7 @@ def eval_function(integral, penalty_weight=0):
 
     # invalid function
     if sum is np.nan:
-        fun_eval = constants.MAX_EVAL_FUN
+        fun_eval = constants.MAX_EVAL_FUN + abs(np.random.normal())
     #valid function
     else:
         #compute penalty
@@ -84,7 +88,7 @@ def eval_function(integral, penalty_weight=0):
             penalty = abs(eval(integral) - constants.F0)
         # if error sum=nan
         except (ZeroDivisionError, OverflowError, ValueError, RuntimeWarning, TypeError):
-            fun_eval = constants.MAX_EVAL_FUN
+            fun_eval = constants.MAX_EVAL_FUN + abs(np.random.normal())
             return fun_eval
 
         #compute fitness considering the penalty

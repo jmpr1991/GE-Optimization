@@ -3,7 +3,7 @@ import evaluation
 
 import numpy as np
 
-def crossover_function(parent_vector):
+def crossover_function(parent_vector, parent_fitness):
     """
     This function recombinates the different parent vectors with the one-point crossover
     :param parent_vector: input vector
@@ -22,10 +22,15 @@ def crossover_function(parent_vector):
         crossover_prob_i = np.random.uniform(0.0,1.0)
 
         # select the parents to recombinate and delete them from the list to avoid repetition
-        parents_crossover = np.zeros(constants.N_INDIVIDUALS, int)
-        for k in range(constants.N_INDIVIDUALS):
-            parents_crossover[k] = np.random.choice(list_parents)
-            list_parents.remove(int(parents_crossover[k]))
+
+        parents_crossover_id0 = np.random.choice(list_parents)
+        list_parents.remove(int(parents_crossover_id0))
+        parents_crossover_id1 = np.random.choice(list_parents)
+        #if (parent_vector[parents_crossover_id0] == parent_vector[parents_crossover_id1]).all():
+        #    while (parent_vector[parents_crossover_id0] == parent_vector[parents_crossover_id1]).all():
+        #        parents_crossover_id1 = np.random.choice(list_parents)
+
+        list_parents.remove(int(parents_crossover_id1))
 
         # perform the crossover if the following condition is met
         if crossover_prob_i <= constants.PC:
@@ -39,14 +44,14 @@ def crossover_function(parent_vector):
             # create the first child
             #child_vector[n_children, :point] = parent_vector[parents_crossover[1], :point]
             #child_vector[n_children, point:] = parent_vector[parents_crossover[0], point:]
-            child_vector[n_children] = np.concatenate((parent_vector[parents_crossover[1], :point], parent_vector[parents_crossover[0], point:]))
+            child_vector[n_children] = np.concatenate((parent_vector[parents_crossover_id1, :point], parent_vector[parents_crossover_id0, point:]))
 
             # create the second child
             n_children = n_children + 1
 
             #child_vector[n_children, :point] = parent_vector[parents_crossover[0], :point]
             #child_vector[n_children, point:] = parent_vector[parents_crossover[1], point:]
-            child_vector[n_children] = np.concatenate((parent_vector[parents_crossover[0], :point], parent_vector[parents_crossover[1], point:]))
+            child_vector[n_children] = np.concatenate((parent_vector[parents_crossover_id0, :point], parent_vector[parents_crossover_id1, point:]))
 
             #child_vector[n_children, :(constants.N_CODONS-point)] = parent_vector[parents_crossover[1], point:]
             #child_vector[n_children, (constants.N_CODONS-point):] = parent_vector[parents_crossover[0], :point]
@@ -57,11 +62,14 @@ def crossover_function(parent_vector):
         # clone the parents if the following condition is met
         else:
             #clone parent 1
-            child_vector[n_children] = parent_vector[parents_crossover[0]]
+            child_vector[n_children] = parent_vector[parents_crossover_id0]
             n_children = n_children + 1
 
             # clone parent 2
-            child_vector[n_children] = parent_vector[parents_crossover[1]]
+            child_vector[n_children] = parent_vector[parents_crossover_id1]
             n_children = n_children + 1
 
     return child_vector.astype(int)
+
+
+#def crossover_function(parent_vector, parent_fitness):

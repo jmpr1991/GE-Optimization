@@ -60,7 +60,7 @@ def main():
             parent_sel_vector, parent_sel_fitness = parent_selection.parent_selection_function(parent_vector, parent_fitness)
 
             # crossover
-            child_vector = crossover.crossover_function(parent_sel_vector)
+            child_vector = crossover.crossover_function(parent_sel_vector, parent_sel_fitness)
 
             # mutation
             child_mutated_vector, child_mutated_fitness, mutated_equations = mutation.mutation_function(child_vector, bnf_grammar, penalty_weight)
@@ -78,6 +78,9 @@ def main():
             # select the best individual of the parent vector
             index_best_individual = np.argmin(new_parent_fitness[:])
             best_function = new_equations[index_best_individual]
+            print(best_function)
+            print(penalty_weight)
+            print(new_parent_fitness[index_best_individual])
 
             # compute penalty
             x = constants.X_CONSTRAINT

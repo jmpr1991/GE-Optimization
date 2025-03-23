@@ -31,7 +31,18 @@ def mutation_function(child_vector, grammar, penalty_weight):
             else:
                 child_mutated_vector[ind] = child_vector[ind]
 
-        equations[ind], _ = grammar.generate(child_mutated_vector[ind].astype(int))
-        child_mutated_fitness[ind] = evaluation.eval_function(equations[ind], penalty_weight)
+        fun, _ = grammar.generate(child_mutated_vector[ind].astype(int))
+        fitness = evaluation.eval_function(fun, penalty_weight)
+
+        # replace individuals with same fitness
+        if (np.isin(child_mutated_fitness, fitness)).any() or (np.isin(equations, fun)).any() or fitness > constants.MAX_EVAL_FUN:
+            while (np.isin(child_mutated_fitness, fitness)).any() or (np.isin(equations, fun)).any() or fitness > constants.MAX_EVAL_FUN:
+                child_mutated_vector[ind] = np.random.randint(2**constants.CODON_BITS, size=constants.N_CODONS)
+                fun, _ = grammar.generate(child_mutated_vector[ind].astype(int))
+                fitness = evaluation.eval_function(fun, penalty_weight)
+
+        child_mutated_fitness[ind] = fitness
+        equations[ind] = fun
+
 
     return child_mutated_vector.astype(int), child_mutated_fitness, equations

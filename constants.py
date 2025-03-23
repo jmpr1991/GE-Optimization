@@ -24,7 +24,7 @@ h = 1e-5 # derivation constant
 
 # restrictions
 PENALTY = True
-INITIAL_PENALTY = 0
+INITIAL_PENALTY = 3e-3
 NF = 4
 BETA1 = 4
 BETA2 = 2.8
@@ -34,7 +34,7 @@ LOCAL_SEARCH = False
 CODON_CONSTRAINT = 5
 
 # Initialization
-POPULATION_SIZE = 10 # population size (select an even number of permutations to avoid errors)
+POPULATION_SIZE = 100 # population size (select an even number of permutations to avoid errors)
 
 # parent selection
 N_TOURNAMENTS = POPULATION_SIZE  # number of tournaments, lambda in the literature
@@ -49,4 +49,4 @@ PM = 0.05 # probability of mutation
 # termination condition
 N_GENERATIONS = 2000 #number of generations
 END_CONDITION = 50 # max number of generations without improvement
-DELTA = 1e-3
+DELTA = 0.2
