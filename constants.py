@@ -5,8 +5,7 @@ This file contain the constants of the problem
 #  randon_vector_generator constants
 CODON_BITS = 8 #number of bits of the codons
 N_EXECUTIONS = 1  #number of executions
-N_CODONS = 16  #number of cities
-
+N_CODONS = 16  #number of codons
 MAX_WRAPS = 10
 
 # evaluation function constants
@@ -32,6 +31,7 @@ BETA2 = 2.8
 # local search
 LOCAL_SEARCH = False
 CODON_CONSTRAINT = 8
+N_CODONS_2_USE = CODON_CONSTRAINT
 
 # crossover and mutation
 ADAPTATIVE_VARIATION = True

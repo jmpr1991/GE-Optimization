@@ -27,7 +27,7 @@ def initialization_function(grammar):
 
         output, n_codons_used = grammar.generate(init_vector[i, :].astype(int))
 
-        if output is not None and n_codons_used > constants.N_CODONS:
+        if output is not None and n_codons_used > constants.N_CODONS_2_USE:
             parent_fitness[i] = evaluation.eval_function(output, constants.INITIAL_PENALTY)
             equations[i] = output
             if parent_fitness[i] < constants.MAX_EVAL_FUN:

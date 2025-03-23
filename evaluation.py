@@ -90,6 +90,9 @@ def eval_function(integral, penalty_weight=0):
             fun_eval = constants.MAX_EVAL_FUN + abs(np.random.normal())
             return fun_eval
 
+        if penalty < constants.DELTA:
+            penalty = 0
+
         #compute fitness considering the penalty
         fun_eval = 1 / (n_points + 1) * sum + penalty_weight * penalty
 

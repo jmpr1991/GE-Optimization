@@ -19,14 +19,14 @@ def survival_elitism_function(child_mutated_vector, child_mutated_fitness, paren
     if min(parent_fitness) < min(child_mutated_fitness):
         #select the best individual of the parent vector
         index_best_individual = np.argmin(parent_fitness[:])
-        best_individual = parent_vector[index_best_individual, :]
+        best_individual = parent_vector[index_best_individual]
 
         #select the worst individual of the current generation
         index_worst_individual = np.argmax(child_mutated_fitness)
 
         # create new generation
         new_parent_vector = child_mutated_vector
-        new_parent_vector[index_worst_individual,:] = best_individual
+        new_parent_vector[index_worst_individual] = best_individual
         new_parent_fitness = child_mutated_fitness
         new_parent_fitness[index_worst_individual] = parent_fitness[index_best_individual]
         new_equations = equations
