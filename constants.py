@@ -10,11 +10,11 @@ MAX_WRAPS = 10
 
 # evaluation function constants
 MAX_EVAL_FUN = 50
-FUN_OPTION = 2
+FUN_OPTION = 1
 X_CONSTRAINT = 0
-F0 = 0
-X_LEFT = 0
-X_RIGHT = 5
+F0 = -0.25
+X_LEFT = -2
+X_RIGHT = 2
 U = 0.1
 K0 = 1
 K1 = 10
@@ -31,7 +31,7 @@ BETA2 = 2.8
 # local search
 LOCAL_SEARCH = False
 CODON_CONSTRAINT = 8
-N_CODONS_2_USE = CODON_CONSTRAINT
+N_CODONS_2_USE = 3
 
 # crossover and mutation
 ADAPTATIVE_VARIATION = True
@@ -39,6 +39,9 @@ PC_K1 = 1.0
 PM_K2 = 0.5
 PC_K3 = 1.0
 PM_K4 = 0.5
+
+# generation of diversity
+DIVERSITY_GENERATION = True
 
 PC = 0.9 # crossover probability
 PM = 0.2 # probability of mutation
@@ -51,6 +54,6 @@ N_TOURNAMENTS = POPULATION_SIZE  # number of tournaments, lambda in the literatu
 N_INDIVIDUALS = 2  # number of individuals participating in the tournament (do not change this value)
 
 # termination condition
-N_GENERATIONS = 2000 #number of generations
-END_CONDITION = 50 # max number of generations without improvement
+N_GENERATIONS = 200 #number of generations
+END_CONDITION = 30 # max number of generations without improvement
 DELTA = 0.2

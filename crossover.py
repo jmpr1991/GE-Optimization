@@ -32,7 +32,7 @@ def crossover_function(parent_sel_vector, parent_sel_fitness, all_parent_fitness
 
         list_parents.remove(int(parents_crossover_id1))
 
-        # compute the crossover probability
+        # compute the adaptative crossover probability
         if constants.ADAPTATIVE_VARIATION is True:
             if min([parent_sel_fitness[parents_crossover_id0], parent_sel_fitness[parents_crossover_id1]]) >= np.mean(parent_sel_fitness):
                 crossover_prob = constants.PC_K3
