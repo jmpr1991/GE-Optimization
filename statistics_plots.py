@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import constants
 import evaluation
 
-def statistics(distances_vector, generation_vector, success_rate, pex):
+def statistics(distances_vector, executions_vector, success_rate, pex):
     """
     This function print the statistics of the genetic algorithm
     :param distances_vector: vector compiling the last generation distances of each execution
@@ -15,6 +15,11 @@ def statistics(distances_vector, generation_vector, success_rate, pex):
     """
     # Success rate computation
     print("\n Statistics:")
+    print("TE = ", success_rate / constants.N_EXECUTIONS * 100, "%")
+    if success_rate == 0:
+        print("PEX = n/a")
+    else:
+        print("PEX = ", sum(executions_vector)/(success_rate), " +/-", np.std(executions_vector))
 
     # VAMM computation
     vam = np.zeros(constants.N_EXECUTIONS)
@@ -24,7 +29,6 @@ def statistics(distances_vector, generation_vector, success_rate, pex):
     vamm = sum(vam) / constants.N_EXECUTIONS
     vamm_std = np.std(vam)
     print('VAMM = ', vamm, '+/-', vamm_std)
-    print('Execution mean number to converge = ', np.mean(generation_vector), '+/-', np.std(generation_vector))
 
 def graphics(min_distance_vector, mean_distance_vector, std_distance_vector):
     """

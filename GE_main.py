@@ -23,7 +23,7 @@ def main():
     all_min_fitness = []
     all_mean_fitness = []
     all_std_fitness = []
-    total_generations = []
+    total_executions = []
     solution = []
 
     # initialize success rate and success mean evaluations number (pex) parameters
@@ -120,20 +120,24 @@ def main():
                 # check convergence
                 termination_generation = termination_generation + 1
                 if termination_generation == constants.END_CONDITION:
-                    total_generations.append(number_generations)
-
                     index_best_ind = list(new_parent_fitness).index(min(new_parent_fitness))
                     solution.append(new_equations[index_best_ind])
                     print(new_equations[index_best_ind])
                     break
 
                 if min(new_parent_fitness) < constants.DELTA:
-                    total_generations.append(number_generations)
-
+                    total_executions.append(number_generations * constants.POPULATION_SIZE)
+                    success_rate = success_rate + 1
                     index_best_ind = list(new_parent_fitness).index(min(new_parent_fitness))
                     solution.append(new_equations[index_best_ind])
                     print(new_equations[index_best_ind])
                     break
+
+            elif number_generations == constants.N_GENERATIONS -1:
+                index_best_ind = list(new_parent_fitness).index(min(new_parent_fitness))
+                solution.append(new_equations[index_best_ind])
+                print(new_equations[index_best_ind])
+                break
 
             else:
                 termination_generation = 0
@@ -149,7 +153,7 @@ def main():
         all_std_fitness.append(std_fitness)
 
     # print statistics and plots
-    statistics_plots.statistics(all_min_fitness, total_generations, success_rate, pex)
+    statistics_plots.statistics(all_min_fitness, total_executions, success_rate, pex)
     statistics_plots.graphics(all_min_fitness, all_mean_fitness, all_std_fitness)
     statistics_plots.representation(solution[0])
 

@@ -53,16 +53,50 @@ def crossover_function(parent_sel_vector, parent_sel_fitness, all_parent_fitness
             else:
                 point = np.random.randint(0, constants.N_CODONS)
 
+            child_1 = np.concatenate((parent_sel_vector[parents_crossover_id1, :point], parent_sel_vector[parents_crossover_id0, point:]))
+            fun_1, _ = grammar.generate(child_1.astype(int))
+            child_fitness_1 = evaluation.eval_function(fun_1, penalty_weight)
+
+            child_2 = np.concatenate((parent_sel_vector[parents_crossover_id0, :point], parent_sel_vector[parents_crossover_id1, point:]))
+            fun_2, _ = grammar.generate(child_2.astype(int))
+            child_fitness_2 = evaluation.eval_function(fun_2, penalty_weight)
+
+            child_3 = np.concatenate((parent_sel_vector[parents_crossover_id1, :point], parent_sel_vector[parents_crossover_id0, :(constants.N_CODONS-point)]))
+            fun_3, _ = grammar.generate(child_3.astype(int))
+            child_fitness_3 = evaluation.eval_function(fun_3, penalty_weight)
+
+            child_4 = np.concatenate((parent_sel_vector[parents_crossover_id0, :point], parent_sel_vector[parents_crossover_id1, :(constants.N_CODONS-point)]))
+            fun_4, _ = grammar.generate(child_4.astype(int))
+            child_fitness_4 = evaluation.eval_function(fun_4, penalty_weight)
+
+            potential_children = [child_1, child_2, child_3, child_4]
+            potential_fun = [fun_1, fun_2, fun_3, fun_4]
+            potential_children_fitness = [child_fitness_1, child_fitness_2, child_fitness_3, child_fitness_4]
+
+            index1 = np.argmin(potential_children_fitness)
+
             # create the first child
-            child_vector[n_children] = np.concatenate((parent_sel_vector[parents_crossover_id1, :point], parent_sel_vector[parents_crossover_id0, point:]))
-            fun, _ = grammar.generate(child_vector[n_children].astype(int))
-            child_fitness[n_children] = evaluation.eval_function(fun, penalty_weight)
+            child_vector[n_children] = potential_children[index1]
+            child_fitness[n_children] = potential_children_fitness[index1]
 
             # create the second child
             n_children = n_children + 1
-            child_vector[n_children] = np.concatenate((parent_sel_vector[parents_crossover_id0, :point], parent_sel_vector[parents_crossover_id1, point:]))
-            fun, _ = grammar.generate(child_vector[n_children].astype(int))
-            child_fitness[n_children] = evaluation.eval_function(fun, penalty_weight)
+            potential_children.pop(index1)
+            potential_children_fitness.pop(index1)
+            index2 = np.argmin(potential_children_fitness)
+            child_vector[n_children] = potential_children[index2]
+            child_fitness[n_children] = potential_children_fitness[index2]
+
+            # create the first child
+            #child_vector[n_children] = np.concatenate((parent_sel_vector[parents_crossover_id1, :point], parent_sel_vector[parents_crossover_id0, point:]))
+            #fun, _ = grammar.generate(child_vector[n_children].astype(int))
+            #child_fitness[n_children] = evaluation.eval_function(fun, penalty_weight)
+
+            # create the second child
+            #n_children = n_children + 1
+            #child_vector[n_children] = np.concatenate((parent_sel_vector[parents_crossover_id0, :point], parent_sel_vector[parents_crossover_id1, point:]))
+            #fun, _ = grammar.generate(child_vector[n_children].astype(int))
+            #child_fitness[n_children] = evaluation.eval_function(fun, penalty_weight)
 
             # go to the next iteration
             n_children = n_children + 1
