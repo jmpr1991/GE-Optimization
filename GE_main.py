@@ -52,7 +52,7 @@ def main():
 
         # generation evolution loop
         while number_generations < constants.N_GENERATIONS:
-            print(number_generations)
+            print("generation: ", number_generations)
 
             # parent selection
             parent_sel_vector, parent_sel_fitness = parent_selection.parent_selection_function(parent_vector, parent_fitness)
@@ -76,9 +76,9 @@ def main():
             # select the best individual of the parent vector
             index_best_individual = np.argmin(new_parent_fitness[:])
             best_function = new_equations[index_best_individual]
-            print(best_function)
-            print(penalty_weight)
-            print(new_parent_fitness[index_best_individual])
+            print("best individual: ", best_function)
+            print("penalty weight: ", penalty_weight)
+            print("best fitness: ", new_parent_fitness[index_best_individual])
 
             # compute penalty
             x = constants.X_CONSTRAINT

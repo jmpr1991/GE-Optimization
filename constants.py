@@ -6,15 +6,15 @@ This file contain the constants of the problem
 CODON_BITS = 8 #number of bits of the codons
 N_EXECUTIONS = 10  #number of executions
 N_CODONS = 10  #number of codons
-MAX_WRAPS = 3
+MAX_WRAPS = 4
 
 # evaluation function constants
 MAX_EVAL_FUN = 50
-FUN_OPTION = 3
+FUN_OPTION = 2
 X_CONSTRAINT = 0
 F0 = 0
-X_LEFT = -2
-X_RIGHT = 2
+X_LEFT = 0
+X_RIGHT = 5
 U = 0.1
 K0 = 1
 K1 = 10
@@ -29,9 +29,9 @@ BETA1 = 4
 BETA2 = 2.8
 
 # local search
-LOCAL_SEARCH = False
-CODON_CONSTRAINT = 3
-N_CODONS_2_USE = 3
+LOCAL_SEARCH = True
+CODON_CONSTRAINT = 8
+N_CODONS_2_USE = 2
 
 # crossover and mutation
 ADAPTATIVE_VARIATION = True

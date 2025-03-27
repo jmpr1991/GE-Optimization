@@ -22,7 +22,7 @@ def function(x):
 
     return fun
 
-def eval_function(integral, penalty_weight=0):
+def eval_function(integral, penalty_weight):
     """
     evaluation function
     :param integral: string with potential integral function which has to be evaluated
@@ -71,10 +71,14 @@ def eval_function(integral, penalty_weight=0):
             break
 
         # compute fitness
-        if abs(F_prim - function(x)) <= constants.U:
-            sum = sum + constants.K0 * abs(F_prim - function(x))
-        else:
-            sum = sum + constants.K1 * abs(F_prim - function(x))
+        try:
+            if abs(F_prim - function(x)) <= constants.U:
+                sum = sum + constants.K0 * abs(F_prim - function(x))
+            else:
+                sum = sum + constants.K1 * abs(F_prim - function(x))
+        except (ZeroDivisionError, OverflowError, ValueError, RuntimeWarning, TypeError):
+            sum = np.nan
+            break
 
     # invalid function
     if sum is np.nan:
