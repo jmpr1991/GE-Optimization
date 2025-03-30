@@ -10,8 +10,10 @@ from constants import MAX_EVAL_FUN
 def initialization_function(grammar):
     """
     this function initialize the initial vector
-    :return: init_vector: matrix built with permutations of the initial vector
+    :return: grammar: grammar
+    :return: init_vector: individual vector (genotype)
     :return: parent_fitness: fitness of the intialized vectors
+    :return: equations: equations (phenotype)
     """
 
     # vector initialization

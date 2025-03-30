@@ -11,8 +11,12 @@ def survival_elitism_function(child_mutated_vector, child_mutated_fitness, paren
     :param child_mutated_fitness: input distance
     :param parent_vector: new generation vector
     :param parent_fitness: new generation distance
+    :param equations: equations (phenotype)
+    :param grammar: grammar
+    :param penalty_weight: penalty weight
     :return: new_parent_vector: new generation vector
-    :return: new_parent_distance: new generation distance
+    :return: new_parent_fitness: new generation distance
+    :return: new_equations: new equations (phenotype)
     """
 
     #select the best individual of the  current population if this condition is met

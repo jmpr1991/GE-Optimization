@@ -26,6 +26,7 @@ def eval_function(integral, penalty_weight):
     """
     evaluation function
     :param integral: string with potential integral function which has to be evaluated
+    :param penalty_weight: penalty weight to meet function constraints
     :return: fitness value
     """
     warnings.simplefilter('error')
@@ -88,17 +89,21 @@ def eval_function(integral, penalty_weight):
         #compute penalty
         x = constants.X_CONSTRAINT
         try:
-            penalty = abs(eval(integral) - constants.F0)
+            diff = abs(eval(integral) - constants.F0)
+            penalty = diff * penalty_weight
+            # ensure that the penalty is always bigger than the delta
+            if penalty < constants.DELTA:
+                penalty = constants.DELTA
         # if error sum=nan
         except (ZeroDivisionError, OverflowError, ValueError, RuntimeWarning, TypeError):
             fun_eval = constants.MAX_EVAL_FUN + abs(np.random.normal())
             return fun_eval
 
-        if penalty < constants.DELTA:
+        if diff < constants.DELTA:
             penalty = 0
 
         #compute fitness considering the penalty
-        fun_eval = 1 / (n_points + 1) * sum + penalty_weight * penalty
+        fun_eval = 1 / (n_points + 1) * sum + penalty
 
     return fun_eval
 

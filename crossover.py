@@ -3,10 +3,13 @@ import evaluation
 
 import numpy as np
 
-def crossover_function(parent_sel_vector, parent_sel_fitness, all_parent_fitness, grammar, penalty_weight):
+def crossover_function(parent_sel_vector, parent_sel_fitness, grammar, penalty_weight):
     """
     This function recombinates the different parent vectors with the one-point crossover
     :param parent_sel_vector: input vector
+    :param parent_sel_fitness: input fitness
+    :param grammar: grammar
+    :param penalty_weight: penalty weight
     :return: child_vector: vector with the parents recombination
     :return: child_distance: vector with the child distances
     """

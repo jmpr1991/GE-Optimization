@@ -7,7 +7,12 @@ def mutation_function(child_vector, child_fitness, grammar, penalty_weight):
     """
     Mutation function for integer representation of the individuals
     :param child_vector: input vector
+    :param child_fitness: input fitness
+    :param grammar: grammar
+    :param penalty_weight: penalty weight
     :return: child_mutated_vector: new vector after mutation
+    :return: child_mutated_fitness: new fitness after mutation
+    :return: equations: equations (phenotype)
     """
     # initialize the variables
     child_mutated_vector = np.zeros((constants.POPULATION_SIZE, constants.N_CODONS))

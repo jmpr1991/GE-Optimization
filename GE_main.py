@@ -31,17 +31,17 @@ def main():
     pex = []
 
     for execution_i in range(constants.N_EXECUTIONS):
-        print("execution {}".format(execution_i+1), "on going")
+        print("\nexecution {}".format(execution_i+1), "on going", "\n")
 
         # constraints parameters initialization
         constraint_gen_met = 0
         constraint_gen_not_met = 0
 
-        # initialize the population
-        parent_vector, parent_fitness, equations = initialization.initialization_function(bnf_grammar)
-
         #initialize penalty to meet constraints
         penalty_weight = constants.INITIAL_PENALTY
+
+        # initialize the population
+        parent_vector, parent_fitness, equations = initialization.initialization_function(bnf_grammar)
 
         # initialize variables
         min_fitness = []
@@ -52,25 +52,21 @@ def main():
 
         # generation evolution loop
         while number_generations < constants.N_GENERATIONS:
-            print("generation: ", number_generations)
+            print("\ngeneration: ", number_generations)
 
             # parent selection
             parent_sel_vector, parent_sel_fitness = parent_selection.parent_selection_function(parent_vector, parent_fitness)
 
             # crossover
-            child_vector, child_fitness = crossover.crossover_function(parent_sel_vector, parent_sel_fitness, parent_fitness, bnf_grammar, penalty_weight)
+            child_vector, child_fitness = crossover.crossover_function(parent_sel_vector, parent_sel_fitness, bnf_grammar, penalty_weight)
 
             # mutation
             child_mutated_vector, child_mutated_fitness, mutated_equations = mutation.mutation_function(child_vector, child_fitness, bnf_grammar, penalty_weight)
 
             # survival selections and elitism
-            new_parent_vector, new_parent_fitness, new_equations = survival_elitism.survival_elitism_function(child_mutated_vector,
-                                                                                               child_mutated_fitness,
-                                                                                               parent_vector,
-                                                                                               parent_fitness,
-                                                                                               mutated_equations,
-                                                                                               penalty_weight,
-                                                                                               bnf_grammar)
+            new_parent_vector, new_parent_fitness, new_equations = survival_elitism.survival_elitism_function(child_mutated_vector, child_mutated_fitness,
+                                                                                               parent_vector, parent_fitness, mutated_equations,
+                                                                                               penalty_weight, bnf_grammar)
 
             # update GA parameters
             # select the best individual of the parent vector
@@ -153,7 +149,7 @@ def main():
         all_std_fitness.append(std_fitness)
 
     # print statistics and plots
-    statistics_plots.statistics(all_min_fitness, total_executions, success_rate, pex)
+    statistics_plots.statistics(all_min_fitness, total_executions, success_rate)
     statistics_plots.graphics(all_min_fitness, all_mean_fitness, all_std_fitness)
     statistics_plots.representation(solution[0])
 
