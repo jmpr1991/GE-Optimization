@@ -5,14 +5,14 @@ This file contain the constants of the problem
 #  randon_vector_generator constants
 CODON_BITS = 8 #number of bits of the codons
 N_EXECUTIONS = 10  #number of executions
-N_CODONS = 10  #number of codons
+N_CODONS = 40  #number of codons
 MAX_WRAPS = 4
 
 # evaluation function constants
 MAX_EVAL_FUN = 50
-FUN_OPTION = 3
+FUN_OPTION = 1
 X_CONSTRAINT = 0
-F0 = 0
+F0 = -0.25
 X_LEFT = -2
 X_RIGHT = 2
 U = 0.1
@@ -29,9 +29,9 @@ BETA1 = 4
 BETA2 = 2.8
 
 # local search
-LOCAL_SEARCH = True
+LOCAL_SEARCH = False
 CODON_CONSTRAINT = 3
-N_CODONS_2_USE = 3
+N_CODONS_2_USE = 2
 
 # crossover and mutation
 ADAPTATIVE_VARIATION = True
@@ -56,4 +56,4 @@ N_INDIVIDUALS = 2  # number of individuals participating in the tournament (do n
 # termination condition
 N_GENERATIONS = 200 #number of generations
 END_CONDITION = 30 # max number of generations without improvement
-DELTA = 1e-4
+DELTA = 1e-1

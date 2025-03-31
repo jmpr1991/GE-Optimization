@@ -5,6 +5,6 @@
 <code> ::= <expr>
 
 <expr> ::= <expr> <op> <expr> | (<expr> <op> <expr>) | <pre_op>(<expr>) | <var>
-<op> ::= + | - | * | /
+<op> ::= + | - | * | / | **
 <pre_op> ::= math.sin | math.cos | math.exp | math.log
-<var> ::= x | 1.0
+<var> ::= x | 1.0 | 2.0 | 3.0 | 4.0
