@@ -94,7 +94,7 @@ def eval_function(integral, penalty_weight):
             # ensure that the penalty is always bigger than the delta
             if penalty < constants.DELTA:
                 penalty = constants.DELTA
-        # if error sum=nan
+
         except (ZeroDivisionError, OverflowError, ValueError, RuntimeWarning, TypeError):
             fun_eval = constants.MAX_EVAL_FUN + abs(np.random.normal())
             return fun_eval

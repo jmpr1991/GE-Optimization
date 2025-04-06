@@ -4,27 +4,27 @@ This file contain the constants of the problem
 
 #  randon_vector_generator constants
 CODON_BITS = 8 #number of bits of the codons
-N_EXECUTIONS = 10  #number of executions
-N_CODONS = 40  #number of codons
+N_EXECUTIONS = 1  #number of executions
+N_CODONS = 20  #number of codons
 MAX_WRAPS = 4
 
 # evaluation function constants
 MAX_EVAL_FUN = 50
-FUN_OPTION = 1
+FUN_OPTION = 2
 X_CONSTRAINT = 0
-F0 = -0.25
-X_LEFT = -2
-X_RIGHT = 2
+F0 = 0
+X_LEFT = 0
+X_RIGHT = 5
 U = 0.1
 K0 = 1
 K1 = 10
 N = 10 # subintervals in 1 unit
 h = 1e-5 # derivation constant
 
-# restrictions
+# restrictions constants
 PENALTY = True
 INITIAL_PENALTY = 1e-2
-NF = 4
+NF = 2
 BETA1 = 4
 BETA2 = 2.8
 

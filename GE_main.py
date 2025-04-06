@@ -28,7 +28,6 @@ def main():
 
     # initialize success rate and success mean evaluations number (pex) parameters
     success_rate = 0
-    pex = []
 
     for execution_i in range(constants.N_EXECUTIONS):
         print("\nexecution {}".format(execution_i+1), "on going", "\n")

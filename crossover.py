@@ -56,6 +56,7 @@ def crossover_function(parent_sel_vector, parent_sel_fitness, grammar, penalty_w
             else:
                 point = np.random.randint(0, constants.N_CODONS)
 
+            #generate the  children
             child_1 = np.concatenate((parent_sel_vector[parents_crossover_id1, :point], parent_sel_vector[parents_crossover_id0, point:]))
             fun_1, _ = grammar.generate(child_1.astype(int))
             child_fitness_1 = evaluation.eval_function(fun_1, penalty_weight)
