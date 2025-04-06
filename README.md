@@ -10,3 +10,5 @@ The primary objective of this task is to gain a deeper understanding of how EG w
 The file constants.py allows users to modify the hyperparameter values and adjust the distribution of cities within the search area.
 
 Additionally, the EG can be easily adapted to find the integral of another function.
+
+Note: decoder.py, has been taken using the decoder function implemented in PONYGE algorithm https://github.com/jmmcd/ponyge/tree/master
